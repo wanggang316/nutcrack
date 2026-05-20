@@ -1,0 +1,98 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: {}
+
+concurrency:
+  group: deploy-vm-nutcrack
+  cancel-in-progress: false
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      PNPM_VERSION: "10.30.3"
+      NODE_VERSION: "22"
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build all workspaces
+        run: pnpm build
+
+      - name: Pack api as self-contained app dir
+        # `pnpm deploy` materializes a runnable app dir with all workspace
+        # deps inlined into node_modules.
+        run: |
+          set -euxo pipefail
+          rm -rf .deploy
+          mkdir -p .deploy
+          pnpm deploy --filter=api --prod --legacy .deploy/api
+
+      - name: Assemble release bundle
+        run: |
+          set -euxo pipefail
+          BUNDLE=/tmp/release
+          rm -rf "$BUNDLE"
+          mkdir -p "$BUNDLE"
+
+          mv .deploy/api "$BUNDLE/api"
+
+          cp -r web/dist "$BUNDLE/web"
+
+          mkdir -p "$BUNDLE/deploy"
+          cp deploy/nutcrack.caddy           "$BUNDLE/deploy/"
+          cp deploy/nutcrack-api.service     "$BUNDLE/deploy/"
+          cp deploy/activate.sh              "$BUNDLE/deploy/"
+
+          echo "${{ github.sha }}" > "$BUNDLE/SHA"
+          date -u +%Y-%m-%dT%H:%M:%SZ > "$BUNDLE/BUILT_AT"
+
+          tar -czf release.tgz -C "$BUNDLE" .
+          du -h release.tgz
+
+      - name: Compute release name
+        id: meta
+        run: |
+          SHORT=$(git rev-parse --short HEAD)
+          TS=$(date -u +%Y%m%d-%H%M%S)
+          echo "release_name=${TS}-${SHORT}" >> "$GITHUB_OUTPUT"
+
+      - name: SCP release to VM
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host:     ${{ secrets.DEPLOY_HOST }}
+          username: ${{ secrets.DEPLOY_USER }}
+          key:      ${{ secrets.DEPLOY_SSH_KEY }}
+          port:     ${{ secrets.DEPLOY_PORT || '22' }}
+          source:   release.tgz
+          target:   /tmp/
+
+      - name: Activate release on VM
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host:     ${{ secrets.DEPLOY_HOST }}
+          username: ${{ secrets.DEPLOY_USER }}
+          key:      ${{ secrets.DEPLOY_SSH_KEY }}
+          port:     ${{ secrets.DEPLOY_PORT || '22' }}
+          command_timeout: 5m
+          script_stop: true
+          script: |
+            set -euo pipefail
+            bash /opt/nutcrack/bin/activate.sh /tmp/release.tgz "${{ steps.meta.outputs.release_name }}"

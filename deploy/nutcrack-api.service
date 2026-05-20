@@ -1,0 +1,25 @@
+[Unit]
+Description=Nutcrack API (Hono on Node.js)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/opt/nutcrack/current/api
+EnvironmentFile=/opt/nutcrack/shared/.env
+Environment=NODE_ENV=production
+ExecStart=/usr/bin/node dist/index.js
+Restart=always
+RestartSec=5
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=nutcrack-api
+
+KillSignal=SIGTERM
+TimeoutStopSec=15
+
+LimitNOFILE=65536
+
+[Install]
+WantedBy=multi-user.target

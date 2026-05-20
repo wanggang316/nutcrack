@@ -1,0 +1,30 @@
+# Nutcrack production Caddyfile
+# Synced from each release by deploy/activate.sh.
+# Reload (after manual edits on the VM): `systemctl reload caddy`
+#
+# The static root resolves through /opt/nutcrack/current which is a symlink
+# updated atomically per release. Caddy follows the symlink on each request,
+# so swapping the symlink takes effect for new requests without a reload.
+
+nutcrack.gumpw.com {
+	encode zstd gzip
+
+	root * /opt/nutcrack/current/web
+
+	@api path /api/*
+	handle @api {
+		reverse_proxy localhost:3010
+	}
+
+	handle {
+		try_files {path} /index.html
+		file_server
+	}
+
+	log {
+		output file /var/log/caddy/nutcrack.gumpw.com.log {
+			roll_size 50mb
+			roll_keep 5
+		}
+	}
+}
