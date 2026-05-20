@@ -11,7 +11,7 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
-    background-color: #FBF7EE;
+    background-color: #D5DFDF;
   }
 
   body {
@@ -19,12 +19,12 @@
       "kern" 1,
       "liga" 1,
       "cv11" 1;
-    background-color: #FBF7EE;
+    background-color: #D5DFDF;
   }
 
   #root {
     min-height: 100vh;
-    background-color: #FBF7EE;
+    background-color: #D5DFDF;
   }
 }
 

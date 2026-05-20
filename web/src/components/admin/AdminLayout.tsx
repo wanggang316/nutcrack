@@ -123,9 +123,9 @@ export default function AdminLayout() {
             onClick={() => setMobileNavOpen(false)}
             aria-label="关闭导航遮罩"
           />
-          <aside className="absolute inset-y-0 left-0 w-[min(22rem,88vw)] border-r border-frame-300 bg-frame-200 shadow-[0_18px_48px_rgba(16,24,40,0.18)]">
-            <div className="flex h-full flex-col bg-frame-200 px-3 py-3">
-              <div className="flex items-center justify-between bg-frame-200 px-2 py-2">
+          <aside className="absolute inset-y-0 left-0 w-[min(22rem,88vw)] bg-parchment-50 shadow-[0_18px_48px_rgba(16,24,40,0.18)]">
+            <div className="flex h-full flex-col bg-parchment-50 px-3 py-3">
+              <div className="flex items-center justify-between bg-parchment-50 px-2 py-2">
                 <a
                   href="/"
                   className="inline-flex items-center gap-3 rounded-xl transition-opacity hover:opacity-80"
@@ -142,7 +142,7 @@ export default function AdminLayout() {
                 </button>
               </div>
 
-              <div className="mt-2 min-h-0 flex-1 overflow-y-auto bg-frame-200 px-1">
+              <div className="mt-2 min-h-0 flex-1 overflow-y-auto bg-parchment-50 px-1">
                 <AdminSidebar
                   navGroups={navGroups}
                   onLinkClick={() => setMobileNavOpen(false)}
@@ -150,7 +150,7 @@ export default function AdminLayout() {
               </div>
 
               <div
-                className="relative mt-2 bg-frame-200 px-1"
+                className="relative mt-2 bg-parchment-50 px-1"
                 ref={mobileUserMenuRef}
               >
                 <button
@@ -171,7 +171,7 @@ export default function AdminLayout() {
                   <div className="absolute inset-x-1 bottom-full z-20 mb-2 rounded-2xl border border-black/6 bg-white p-1.5 shadow-[0_12px_40px_rgba(16,24,40,0.10)]">
                     <button
                       type="button"
-                      className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-base-content/65 transition-colors hover:bg-frame-50 hover:text-base-content"
+                      className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-base-content/65 transition-colors hover:bg-parchment-100 hover:text-base-content"
                       onClick={() => {
                         setUserMenuOpen(false);
                         setSettingsOpen(true);
@@ -182,7 +182,7 @@ export default function AdminLayout() {
                     </button>
                     <button
                       type="button"
-                      className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-base-content/65 transition-colors hover:bg-frame-50 hover:text-base-content"
+                      className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-base-content/65 transition-colors hover:bg-parchment-100 hover:text-base-content"
                       onClick={() => handleNavigate("/admin/tools/logs")}
                     >
                       <ClipboardDocumentListIcon className="h-4 w-4 shrink-0" />
@@ -190,7 +190,7 @@ export default function AdminLayout() {
                     </button>
                     <button
                       type="button"
-                      className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-base-content/65 transition-colors hover:bg-frame-50 hover:text-base-content"
+                      className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-base-content/65 transition-colors hover:bg-parchment-100 hover:text-base-content"
                       onClick={() => handleNavigate("/admin/tools/download")}
                     >
                       <ArrowDownTrayIcon className="h-4 w-4 shrink-0" />
@@ -216,9 +216,9 @@ export default function AdminLayout() {
       ) : null}
 
       <div className="mx-auto min-h-[calc(100dvh-3.75rem)] w-full max-w-[1600px] gap-1.5 bg-parchment-50 px-1 py-1 sm:px-1.5 sm:py-1.5 lg:grid lg:min-h-screen lg:grid-cols-[220px_minmax(0,1fr)] lg:px-1.5 lg:py-1.5 xl:px-2">
-        <aside className="hidden bg-frame-200 lg:sticky lg:top-2.5 lg:block lg:h-[calc(100vh-1.25rem)] lg:rounded-2xl lg:border lg:border-frame-300">
-          <div className="flex h-full flex-col bg-frame-200 px-0.5 py-0.5 lg:rounded-2xl">
-            <div className="bg-frame-200 px-2 py-2">
+        <aside className="hidden bg-parchment-50 lg:sticky lg:top-2.5 lg:block lg:h-[calc(100vh-1.25rem)]">
+          <div className="flex h-full flex-col bg-parchment-50 px-0.5 py-0.5">
+            <div className="bg-parchment-50 px-2 py-2">
               <a
                 href="/"
                 className="inline-flex items-center gap-3 rounded-xl transition-opacity hover:opacity-80"
@@ -227,12 +227,12 @@ export default function AdminLayout() {
               </a>
             </div>
 
-            <div className="mt-2 min-h-0 flex-1 overflow-y-auto bg-frame-200 px-1">
+            <div className="mt-2 min-h-0 flex-1 overflow-y-auto bg-parchment-50 px-1">
               <AdminSidebar navGroups={navGroups} />
             </div>
 
             <div
-              className="relative mt-2 bg-frame-200 px-1"
+              className="relative mt-2 bg-parchment-50 px-1"
               ref={desktopUserMenuRef}
             >
               <button
@@ -253,7 +253,7 @@ export default function AdminLayout() {
                 <div className="absolute inset-x-1 bottom-full z-20 mb-2 rounded-2xl border border-black/6 bg-white p-1.5 shadow-[0_12px_40px_rgba(16,24,40,0.10)]">
                   <button
                     type="button"
-                    className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-base-content/65 transition-colors hover:bg-frame-50 hover:text-base-content"
+                    className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-base-content/65 transition-colors hover:bg-parchment-100 hover:text-base-content"
                     onClick={() => {
                       setUserMenuOpen(false);
                       setSettingsOpen(true);
@@ -264,7 +264,7 @@ export default function AdminLayout() {
                   </button>
                   <button
                     type="button"
-                    className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-base-content/65 transition-colors hover:bg-frame-50 hover:text-base-content"
+                    className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-base-content/65 transition-colors hover:bg-parchment-100 hover:text-base-content"
                     onClick={() => handleNavigate("/admin/tools/logs")}
                   >
                     <ClipboardDocumentListIcon className="h-4 w-4 shrink-0" />
@@ -272,7 +272,7 @@ export default function AdminLayout() {
                   </button>
                   <button
                     type="button"
-                    className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-base-content/65 transition-colors hover:bg-frame-50 hover:text-base-content"
+                    className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-base-content/65 transition-colors hover:bg-parchment-100 hover:text-base-content"
                     onClick={() => handleNavigate("/admin/tools/download")}
                   >
                     <ArrowDownTrayIcon className="h-4 w-4 shrink-0" />

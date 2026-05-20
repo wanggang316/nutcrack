@@ -19,20 +19,13 @@ export default {
           500: '#EA580C',      // accent: wings / nut
           600: '#C2410C',
         },
+        // Page surface — sampled from the logo's hexagonal backplate.
+        // The whole product sits on the same paper the bird does.
         parchment: {
-          50: '#FBF7EE',       // page background
-          100: '#F5EFDF',
-          200: '#EAE3D2',
-          300: '#D9D0BB',
-        },
-        // Cool panel surface — sampled from the logo's hexagonal backplate.
-        // Used for sidebars and other "framing" surfaces so they read as part
-        // of the same paper the bird sits on.
-        frame: {
-          50: '#EDF1F1',       // hover wash
-          100: '#DEE6E6',
-          200: '#D5DFDF',      // logo backplate — sidebar bg
-          300: '#BDC9C9',      // panel border
+          50: '#D5DFDF',       // body bg — exact logo backplate
+          100: '#CAD6D6',      // raised surface step
+          200: '#BDC9C9',      // borders / dividers
+          300: '#ABB8B8',      // strong border / disabled
         },
       },
       fontFamily: {
@@ -64,13 +57,13 @@ export default {
           'secondary-content': '#FFFFFF',
           accent: '#EA580C',
           'accent-content': '#FFFFFF',
-          // Surfaces — warm ivory matching the logo's parchment backdrop
+          // Surfaces — page bg matches the logo's hexagonal backplate
           'base-100': '#FFFFFF',
-          'base-200': '#FBF7EE',
-          'base-300': '#F5EFDF',
+          'base-200': '#D5DFDF',
+          'base-300': '#CAD6D6',
           'base-content': '#0F2A3D',
           neutral: '#1F3A47',
-          'neutral-content': '#FBF7EE',
+          'neutral-content': '#D5DFDF',
           // Semantics
           info: '#0EA5E9',
           'info-content': '#FFFFFF',
