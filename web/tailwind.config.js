@@ -25,6 +25,15 @@ export default {
           200: '#EAE3D2',
           300: '#D9D0BB',
         },
+        // Cool panel surface — sampled from the logo's hexagonal backplate.
+        // Used for sidebars and other "framing" surfaces so they read as part
+        // of the same paper the bird sits on.
+        frame: {
+          50: '#EDF1F1',       // hover wash
+          100: '#DEE6E6',
+          200: '#D5DFDF',      // logo backplate — sidebar bg
+          300: '#BDC9C9',      // panel border
+        },
       },
       fontFamily: {
         // Inter handles latin, system CJK fallback for 中文.
