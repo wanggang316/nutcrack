@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -11,24 +11,20 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
-    background-color: rgb(245 245 244);
+    background-color: #FBF7EE;
   }
 
   body {
     font-feature-settings:
       "kern" 1,
-      "liga" 1;
-    background-color: rgb(245 245 244);
+      "liga" 1,
+      "cv11" 1;
+    background-color: #FBF7EE;
   }
 
   #root {
     min-height: 100vh;
-    background-color: rgb(245 245 244);
-  }
-
-  .font-playfair {
-    font-family: "Playfair Display", serif;
-    font-feature-settings: "kern" 1;
+    background-color: #FBF7EE;
   }
 }
 
@@ -152,11 +148,11 @@
   }
 
   .process-stage-chevron-done {
-    color: #007acc;
+    color: #0F766E;
   }
 
   .process-stage-chevron-active {
-    color: #007acc;
+    color: #0F766E;
   }
 
   .process-stage-chevron-active span {

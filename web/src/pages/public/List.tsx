@@ -118,7 +118,7 @@ export default function List() {
           <span className="loading loading-spinner loading-lg" />
         </div>
       ) : isError ? (
-        <div className="rounded-md bg-stone-50 p-4 text-sm text-base-content/70">
+        <div className="rounded-md bg-parchment-50 p-4 text-sm text-base-content/70">
           加载失败，请稍后重试
         </div>
       ) : items.length === 0 ? (

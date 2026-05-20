@@ -34,25 +34,7 @@ function normalizeHost(input: string) {
 function Logo() {
   return (
     <div className="brand">
-      <svg
-        width="18"
-        height="23"
-        viewBox="0 0 72 91"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        aria-hidden="true"
-      >
-        <path
-          d="M29.4414 83.043L47.1582 70.541L65.5947 83.0674L69.5 85.7217V17.5H25.5V85.8242L29.4414 83.043Z"
-          stroke="currentColor"
-          strokeWidth="5"
-        />
-        <path
-          d="M6.44141 68.043L24.1592 55.541L32.6611 61.3174L42.5947 68.0674L46.5 70.7217V2.5H2.5V70.8242L6.44141 68.043Z"
-          stroke="currentColor"
-          strokeWidth="5"
-        />
-      </svg>
+      <img src="/logo.png" width={22} height={22} alt="" aria-hidden="true" />
       <span>Nutcrack</span>
     </div>
   );

@@ -194,7 +194,7 @@ export default function MarkdownPreview({
     blocks.push(
       <div
         key={`code-${blocks.length}`}
-        className="overflow-auto rounded-2xl border border-stone-200 bg-stone-50 px-3 py-3"
+        className="overflow-auto rounded-2xl border border-parchment-200 bg-parchment-50 px-3 py-3"
       >
         {pendingCodeTitle ? (
           <div className="mb-4 flex items-center justify-between">
@@ -203,7 +203,7 @@ export default function MarkdownPreview({
             </div>
           </div>
         ) : null}
-        <div className="min-w-max font-mono text-[13px] leading-6 text-stone-800">
+        <div className="min-w-max font-mono text-[13px] leading-6 text-ink">
           {rows.map((line, index) => (
             <div key={index}>
               <code className="whitespace-pre-wrap break-words">
