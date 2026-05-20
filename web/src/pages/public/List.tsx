@@ -1,9 +1,17 @@
-import { useMemo } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useSearchParams } from "react-router-dom";
+import {
+  Bars3Icon,
+  MagnifyingGlassIcon,
+  XMarkIcon,
+} from "@heroicons/react/24/outline";
 import type { LinksQuery, PublicLink } from "@nutcrack/shared";
 import { publicApi } from "../../utils/api";
-import { LinkCard, MonthSection, TagCloud } from "../../components/home";
+import Logo from "../../components/Logo";
+import { CategorySidebar } from "../../components/CategoryList";
+import { LinkCard, TagList } from "../../components/home";
+import { SimplePagination } from "../../components/Pagination";
 
 function parsePage(raw: string | null): number {
   if (!raw) return 1;
@@ -18,9 +26,11 @@ function groupByMonth(items: PublicLink[]): Array<{
 }> {
   const groups = new Map<string, PublicLink[]>();
   for (const link of items) {
-    const date = link.published_at ?? link.url;
     const month = link.published_at
-      ? new Date(link.published_at).toISOString().slice(0, 7)
+      ? (() => {
+          const d = new Date(link.published_at);
+          return `${d.getFullYear()}年${d.getMonth() + 1}月`;
+        })()
       : "未发布";
     const list = groups.get(month);
     if (list) {
@@ -28,11 +38,11 @@ function groupByMonth(items: PublicLink[]): Array<{
     } else {
       groups.set(month, [link]);
     }
-    void date;
   }
-  return Array.from(groups.entries())
-    .sort(([a], [b]) => (a < b ? 1 : -1))
-    .map(([month, links]) => ({ month, links }));
+  return Array.from(groups.entries()).map(([month, links]) => ({
+    month,
+    links,
+  }));
 }
 
 export default function List() {
@@ -40,17 +50,19 @@ export default function List() {
   const page = parsePage(searchParams.get("page"));
   const category = searchParams.get("category") ?? undefined;
   const tagsRaw = searchParams.get("tags");
+  const q = searchParams.get("q") ?? undefined;
+
   const selectedTags = useMemo(
     () => (tagsRaw ? tagsRaw.split(",").filter(Boolean) : []),
     [tagsRaw],
   );
 
   const query: LinksQuery = useMemo(
-    () => ({ page, category, tags: tagsRaw ?? undefined }),
-    [page, category, tagsRaw],
+    () => ({ page, page_size: 20, category, tags: tagsRaw ?? undefined, q }),
+    [page, category, tagsRaw, q],
   );
 
-  const { data, isLoading, isError } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ["public-links", query],
     queryFn: () => publicApi.getLinks(query),
   });
@@ -60,19 +72,48 @@ export default function List() {
     queryFn: () => publicApi.getCategories(),
   });
 
-  const items = data?.items ?? [];
-  const groups = useMemo(() => groupByMonth(items), [items]);
-  const totalPages = data?.pagination.total_pages ?? 1;
+  const [searchInput, setSearchInput] = useState(q ?? "");
+  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
+  const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
+  const mobileSearchInputRef = useRef<HTMLInputElement>(null);
 
-  const setParam = (key: string, value: string | undefined) => {
-    const next = new URLSearchParams(searchParams);
+  useEffect(() => {
+    setSearchInput(q ?? "");
+  }, [q]);
+
+  useEffect(() => {
+    if (isMobileSearchOpen) {
+      mobileSearchInputRef.current?.focus();
+    }
+  }, [isMobileSearchOpen]);
+
+  const setParam = (
+    next: URLSearchParams,
+    key: string,
+    value: string | undefined,
+  ) => {
     if (value === undefined || value === "") {
       next.delete(key);
     } else {
       next.set(key, value);
     }
+  };
+
+  const handleSearchSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    const next = new URLSearchParams(searchParams);
+    setParam(next, "q", searchInput.trim() || undefined);
     next.delete("page");
     setSearchParams(next);
+    setIsMobileSearchOpen(false);
+  };
+
+  const handleCategorySelect = (categoryName: string | undefined) => {
+    const next = new URLSearchParams(searchParams);
+    setParam(next, "category", categoryName);
+    next.delete("page");
+    setSearchParams(next);
+    setIsMobileSidebarOpen(false);
   };
 
   const handleTagClick = (tag: string) => {
@@ -82,12 +123,19 @@ export default function List() {
     } else {
       set.add(tag);
     }
-    const joined = Array.from(set).join(",");
-    setParam("tags", joined || undefined);
+    const next = new URLSearchParams(searchParams);
+    setParam(next, "tags", Array.from(set).join(",") || undefined);
+    next.delete("page");
+    setSearchParams(next);
+    setIsMobileSidebarOpen(false);
   };
 
-  const handleCategoryClick = (cat: string) => {
-    setParam("category", cat === category ? undefined : cat);
+  const handleClearSearch = () => {
+    setSearchInput("");
+    const next = new URLSearchParams(searchParams);
+    next.delete("q");
+    next.delete("page");
+    setSearchParams(next);
   };
 
   const handlePageChange = (nextPage: number) => {
@@ -100,87 +148,247 @@ export default function List() {
     setSearchParams(next);
   };
 
+  const items = data?.items ?? [];
+  const grouped = useMemo(() => groupByMonth(items), [items]);
+  const totalPages = data?.pagination.total_pages ?? 1;
+  const totalCount = data?.pagination.total ?? 0;
+  const hasFilter = Boolean(category || selectedTags.length || q);
+
   return (
-    <main className="mx-auto max-w-4xl px-6 py-8">
-      {data?.tags && data.tags.length > 0 && (
-        <div className="mb-6">
-          <TagCloud
-            tags={data.tags.map((t) => t.name)}
-            selectedTags={selectedTags}
-            onTagClick={handleTagClick}
-            maxDisplay={30}
-          />
-        </div>
-      )}
-
-      {isLoading ? (
-        <div className="flex justify-center p-12">
-          <span className="loading loading-spinner loading-lg" />
-        </div>
-      ) : isError ? (
-        <div className="rounded-md bg-parchment-50 p-4 text-sm text-base-content/70">
-          加载失败，请稍后重试
-        </div>
-      ) : items.length === 0 ? (
-        <div className="py-16 text-center text-sm text-base-content/50">
-          还没有收藏，请稍候
-        </div>
-      ) : (
-        <div>
-          {groups.map(({ month, links }) => (
-            <MonthSection key={month} month={month} count={links.length}>
-              {links.map((link) => (
-                <LinkCard
-                  key={link.id}
-                  link={link}
-                  categories={categoriesData?.items ?? []}
-                  selectedCategory={category}
-                  selectedTags={selectedTags}
-                  onCategoryClick={handleCategoryClick}
-                  onTagClick={handleTagClick}
-                />
-              ))}
-            </MonthSection>
-          ))}
-        </div>
-      )}
-
-      {totalPages > 1 && (
-        <div className="mt-8 flex justify-center">
-          <div className="join">
-            <button
-              type="button"
-              className="join-item btn btn-sm min-w-9"
-              disabled={page <= 1}
-              onClick={() => handlePageChange(page - 1)}
-            >
-              &lt;
-            </button>
-            {Array.from({ length: totalPages }, (_, index) => index + 1).map(
-              (pageNumber) => (
-                <button
-                  key={pageNumber}
-                  type="button"
-                  className={`join-item btn btn-sm min-w-9 ${
-                    pageNumber === page ? "btn-active" : ""
-                  }`}
-                  onClick={() => handlePageChange(pageNumber)}
-                >
-                  {pageNumber}
-                </button>
-              ),
+    <div className="min-h-screen">
+      {/* Top navbar */}
+      <div className="sticky top-0 z-30 border-b border-parchment-200 bg-base-200/90 backdrop-blur">
+        <div className="mx-auto flex max-w-6xl items-center gap-2 px-4 py-3">
+          <button
+            className="btn btn-ghost btn-sm lg:hidden"
+            onClick={() => setIsMobileSidebarOpen((open) => !open)}
+            aria-label="切换侧边栏"
+          >
+            {isMobileSidebarOpen ? (
+              <XMarkIcon className="h-5 w-5" />
+            ) : (
+              <Bars3Icon className="h-5 w-5" />
             )}
+          </button>
+
+          <a href="/" className="ml-1 flex items-center">
+            <Logo variant="default" />
+          </a>
+
+          <div className="ml-auto flex items-center gap-2">
+            <form onSubmit={handleSearchSubmit} className="join hidden lg:flex">
+              <input
+                type="search"
+                className="input input-bordered input-sm join-item w-56"
+                placeholder="搜索标题、标签、描述..."
+                value={searchInput}
+                onChange={(e) => setSearchInput(e.target.value)}
+              />
+              <button type="submit" className="btn btn-primary btn-sm join-item">
+                <MagnifyingGlassIcon className="h-4 w-4" />
+              </button>
+            </form>
+
             <button
               type="button"
-              className="join-item btn btn-sm min-w-9"
-              disabled={page >= totalPages}
-              onClick={() => handlePageChange(page + 1)}
+              className="btn btn-ghost btn-sm lg:hidden"
+              onClick={() => setIsMobileSearchOpen((open) => !open)}
+              aria-label="搜索"
             >
-              &gt;
+              {isMobileSearchOpen ? (
+                <XMarkIcon className="h-5 w-5" />
+              ) : (
+                <MagnifyingGlassIcon className="h-5 w-5" />
+              )}
             </button>
           </div>
         </div>
+
+        {isMobileSearchOpen && (
+          <div className="border-t border-parchment-200 px-4 py-2 lg:hidden">
+            <form onSubmit={handleSearchSubmit} className="join w-full">
+              <input
+                ref={mobileSearchInputRef}
+                type="search"
+                className="input input-bordered input-sm join-item flex-1"
+                placeholder="搜索标题、标签、描述..."
+                value={searchInput}
+                onChange={(e) => setSearchInput(e.target.value)}
+              />
+              <button type="submit" className="btn btn-primary btn-sm join-item">
+                <MagnifyingGlassIcon className="h-4 w-4" />
+              </button>
+            </form>
+          </div>
+        )}
+      </div>
+
+      {/* Mobile sidebar drawer */}
+      {isMobileSidebarOpen && (
+        <div className="fixed inset-0 z-40 flex lg:hidden">
+          <button
+            type="button"
+            className="fixed inset-0 cursor-default bg-black/40"
+            onClick={() => setIsMobileSidebarOpen(false)}
+            aria-label="关闭侧边栏"
+          />
+          <aside className="relative h-full w-72 max-w-[85vw] overflow-y-auto border-r border-parchment-200 bg-base-200 p-4">
+            <div className="mb-4 flex items-center justify-between">
+              <span className="text-base font-semibold">筛选</span>
+              <button
+                className="btn btn-ghost btn-sm btn-circle"
+                onClick={() => setIsMobileSidebarOpen(false)}
+                aria-label="关闭"
+              >
+                <XMarkIcon className="h-5 w-5" />
+              </button>
+            </div>
+
+            <CategorySidebar
+              categories={categoriesData?.items ?? []}
+              categoriesWithCounts={data?.categories}
+              totalCount={totalCount}
+              selectedCategory={category}
+              onCategorySelect={handleCategorySelect}
+            />
+
+            {data?.tags && data.tags.length > 0 && (
+              <div className="mt-4">
+                <h3 className="mb-2 px-2 text-xs font-semibold uppercase tracking-widest text-base-content/40">
+                  热门标签
+                </h3>
+                <TagList
+                  tags={data.tags.map((t) => t.name)}
+                  selectedTags={selectedTags}
+                  onTagClick={handleTagClick}
+                  maxDisplay={20}
+                  variant="outline"
+                />
+              </div>
+            )}
+          </aside>
+        </div>
       )}
-    </main>
+
+      {/* Two-column body */}
+      <div className="mx-auto flex max-w-6xl gap-6 px-4 py-6 lg:px-6">
+        <aside className="hidden w-60 shrink-0 lg:block">
+          <div className="sticky top-20">
+            <CategorySidebar
+              categories={categoriesData?.items ?? []}
+              categoriesWithCounts={data?.categories}
+              totalCount={totalCount}
+              selectedCategory={category}
+              onCategorySelect={handleCategorySelect}
+            />
+
+            {data?.tags && data.tags.length > 0 && (
+              <div>
+                <h3 className="mb-2 px-2 text-xs font-semibold uppercase tracking-widest text-base-content/40">
+                  热门标签
+                </h3>
+                <TagList
+                  tags={data.tags.map((t) => t.name)}
+                  selectedTags={selectedTags}
+                  onTagClick={handleTagClick}
+                  maxDisplay={20}
+                  variant="outline"
+                />
+              </div>
+            )}
+          </div>
+        </aside>
+
+        <main className="min-w-0 flex-1">
+          {hasFilter && (
+            <div className="mb-4 flex flex-wrap items-center gap-2">
+              <span className="text-sm text-base-content/50">筛选:</span>
+              {category && (
+                <span className="badge badge-primary badge-sm gap-1">
+                  {category}
+                  <button
+                    onClick={() => handleCategorySelect(undefined)}
+                    aria-label="移除"
+                  >
+                    ×
+                  </button>
+                </span>
+              )}
+              {selectedTags.map((tag) => (
+                <span
+                  key={tag}
+                  className="badge badge-primary badge-sm gap-1"
+                >
+                  #{tag}
+                  <button onClick={() => handleTagClick(tag)} aria-label="移除">
+                    ×
+                  </button>
+                </span>
+              ))}
+              {q && (
+                <span className="badge badge-primary badge-sm gap-1">
+                  搜索: {q}
+                  <button onClick={handleClearSearch} aria-label="清除搜索">
+                    ×
+                  </button>
+                </span>
+              )}
+            </div>
+          )}
+
+          {isLoading ? (
+            <div className="flex justify-center p-12">
+              <span className="loading loading-spinner loading-lg" />
+            </div>
+          ) : items.length === 0 ? (
+            <div className="py-16 text-center">
+              <p className="text-sm font-medium text-base-content/50">
+                还没有已发布的链接
+              </p>
+              <p className="mx-auto mt-1.5 max-w-xs text-sm leading-relaxed text-base-content/35">
+                添加链接并完成 AI 处理后，这里会展示最新公开内容。
+              </p>
+            </div>
+          ) : (
+            <div>
+              {grouped.map(({ month, links }) => (
+                <div key={month} className="mb-10">
+                  <div className="mb-1 flex items-center gap-3">
+                    <h2 className="shrink-0 text-xs font-semibold uppercase tracking-widest text-base-content/40">
+                      {month}
+                    </h2>
+                    <span className="text-xs text-base-content/30">
+                      {links.length}
+                    </span>
+                    <div className="flex-1 border-t border-parchment-200" />
+                  </div>
+                  {links.map((link) => (
+                    <LinkCard
+                      key={link.id}
+                      link={link}
+                      categories={categoriesData?.items ?? []}
+                      selectedCategory={category}
+                      selectedTags={selectedTags}
+                      onCategoryClick={(cat) =>
+                        handleCategorySelect(cat === category ? undefined : cat)
+                      }
+                      onTagClick={handleTagClick}
+                    />
+                  ))}
+                </div>
+              ))}
+
+              {totalPages > 1 && (
+                <SimplePagination
+                  currentPage={page}
+                  totalPages={totalPages}
+                  onPageChange={handlePageChange}
+                />
+              )}
+            </div>
+          )}
+        </main>
+      </div>
+    </div>
   );
 }

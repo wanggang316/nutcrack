@@ -5,7 +5,6 @@ import { AuthProvider, useAuth } from "./context/AuthContext";
 import { type ReactNode } from "react";
 
 import Login from "./pages/admin/Login";
-import PublicLayout from "./components/public/PublicLayout";
 import PublicList from "./pages/public/List";
 import AdminLayout from "./components/admin/AdminLayout";
 import Overview from "./pages/admin/Overview";
@@ -51,9 +50,7 @@ export default function App() {
       <BrowserRouter>
         <AuthProvider>
           <Routes>
-            <Route element={<PublicLayout />}>
-              <Route path="/" element={<PublicList />} />
-            </Route>
+            <Route path="/" element={<PublicList />} />
             <Route path="/login" element={<Login />} />
 
             <Route
