@@ -1,0 +1,43 @@
+{
+  "name": "nutcrack-cli",
+  "version": "0.1.0",
+  "description": "Nutcrack CLI for configuring auth access and managing links through /api/auth/*",
+  "license": "MIT",
+  "type": "module",
+  "bin": {
+    "nutcrack": "./dist/index.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "keywords": [
+    "nutcrack",
+    "cli",
+    "links",
+    "ai"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "dev": "tsx src/index.ts",
+    "build": "tsup",
+    "check": "tsc --noEmit",
+    "test": "tsx --test src/__tests__/**/*.test.ts",
+    "fmt": "prettier --write \"src/**/*.{ts,json}\"",
+    "pack:local": "pnpm pack",
+    "prepack": "pnpm run build",
+    "prepublishOnly": "pnpm run check && pnpm run build"
+  },
+  "dependencies": {
+    "commander": "^14.0.1"
+  },
+  "devDependencies": {
+    "@nutcrack/shared": "workspace:*",
+    "@types/node": "^25.3.5",
+    "prettier": "^3.5.0",
+    "tsup": "^8.5.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.7.0"
+  }
+}
