@@ -66,6 +66,12 @@ if [[ -f "$RELEASE_DIR/deploy/nutcrack.caddy" ]]; then
   log "Installing Caddy snippet → $dst"
   install -m 644 "$src" "$dst"
   if caddy validate --config /etc/caddy/Caddyfile --adapter caddyfile >/dev/null 2>&1; then
+    # `caddy validate` opens declared log files as the invoking user (root
+    # here); those files are then unwritable by the caddy service user on
+    # reload. Hand newly-created log files back to caddy:caddy before reload.
+    if id caddy >/dev/null 2>&1 && [[ -d /var/log/caddy ]]; then
+      chown caddy:caddy /var/log/caddy/*.log 2>/dev/null || true
+    fi
     CADDY_RELOAD=1
   else
     err "Merged Caddy config failed validation; reverting $dst"
