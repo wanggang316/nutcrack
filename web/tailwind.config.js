@@ -20,11 +20,11 @@ export default {
           600: '#C2410C',
         },
         // Page surface — same hue as the logo's hexagonal backplate
-        // (#D5DFDF) but lighter so it reads as a soft paper, not a heavy
-        // panel. The bird's own backplate sits one step deeper inside it.
+        // (#D5DFDF) but pushed lighter so it reads as soft paper rather
+        // than a heavy panel.
         parchment: {
-          50: '#ECF0F0',       // body bg — soft paper
-          100: '#DFE6E6',      // raised surface step / hover wash
+          50: '#F4F8F8',       // body bg — pale teal-tinted paper
+          100: '#E5ECEC',      // raised surface step / hover wash
           200: '#CFD9D9',      // borders / dividers
           300: '#B8C5C5',      // strong border / disabled
         },
@@ -61,11 +61,11 @@ export default {
           // Surfaces — body sits on a soft paper one shade lighter than
           // the logo's own backplate
           'base-100': '#FFFFFF',
-          'base-200': '#ECF0F0',
-          'base-300': '#DFE6E6',
+          'base-200': '#F4F8F8',
+          'base-300': '#E5ECEC',
           'base-content': '#0F2A3D',
           neutral: '#1F3A47',
-          'neutral-content': '#ECF0F0',
+          'neutral-content': '#F4F8F8',
           // Semantics
           info: '#0EA5E9',
           'info-content': '#FFFFFF',
