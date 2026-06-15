@@ -24,6 +24,21 @@ log() { printf '\033[36m[activate]\033[0m %s\n' "$*"; }
 err() { printf '\033[31m[activate]\033[0m %s\n' "$*" >&2; }
 
 # ---------------------------------------------------------------
+# Install shared env from the central project-env repo.
+#
+# project-env-install (provided by nanops/bootstrap/install.sh) clones the
+# encrypted repo into tmpfs, unlocks, copies nutcrack/prod/env to
+# $SHARED_DIR/.env, and discards the clone. Atomic + idempotent.
+#
+# Skipped silently on VMs without nanops bootstrap, so the sanity check
+# below still enforces "env must be in place" regardless of source.
+# ---------------------------------------------------------------
+if command -v project-env-install >/dev/null; then
+  log "Installing env from project-env"
+  project-env-install nutcrack prod "$SHARED_DIR/.env"
+fi
+
+# ---------------------------------------------------------------
 # Sanity
 # ---------------------------------------------------------------
 [[ -f "$TARBALL"          ]] || { err "Tarball not found: $TARBALL"; exit 1; }

@@ -43,16 +43,22 @@ chmod 755 "$ROOT/shared/data"
 log "Installing $ROOT/bin/activate.sh"
 install -m 755 "$BOOTSTRAP_DIR/deploy/activate.sh" "$ROOT/bin/activate.sh"
 
-# Seed .env from template if missing
-if [[ ! -f "$ROOT/shared/.env" ]]; then
-  log "Seeding $ROOT/shared/.env from template — fill in secrets before first deploy"
+# Seed .env. Source of truth is the central project-env repo (nutcrack/prod/env),
+# installed via project-env-install on every deploy by activate.sh. Here we just
+# populate it once so the first deploy's sanity check passes.
+if [[ -f "$ROOT/shared/.env" ]]; then
+  log "$ROOT/shared/.env already exists — leaving untouched"
+elif command -v project-env-install >/dev/null; then
+  log "Installing $ROOT/shared/.env from project-env (nutcrack/prod)"
+  project-env-install nutcrack prod "$ROOT/shared/.env"
+else
+  log "project-env-install not found — seeding $ROOT/shared/.env from template"
   install -m 600 "$BOOTSTRAP_DIR/deploy/.env.production.example" "$ROOT/shared/.env"
   echo
-  echo "  >>> Edit $ROOT/shared/.env if you have a Jina key for link scraping."
+  echo "  >>> No nanops/project-env on this VM. Fill in JINA_API_KEY manually:"
+  echo "  >>>   nano $ROOT/shared/.env"
   echo "  >>> AI keys are managed in the admin UI (settings table), not here."
   echo
-else
-  log "$ROOT/shared/.env already exists — leaving untouched"
 fi
 
 # ---------------------------------------------------------------
@@ -66,6 +72,6 @@ systemctl enable nutcrack-api.service
 log "Bootstrap complete. Service is NOT started — it needs a release first."
 echo
 echo "Next steps:"
-echo "  1. (Optional) Edit $ROOT/shared/.env."
+echo "  1. Ensure nutcrack/prod/env exists in the project-env repo (see deploy/README.md)."
 echo "  2. Point DNS A record for nutcrack.gumpw.com to this VM."
 echo "  3. Push to main; CI runs $ROOT/bin/activate.sh on the first deploy."
