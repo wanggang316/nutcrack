@@ -29,7 +29,7 @@ contributes:
 │   └── activate.sh
 └── shared/
     ├── data/nutcrack.db     persistent SQLite + WAL
-    └── .env                 secrets (PORT, DATABASE_URL, JINA_API_KEY)
+    └── .env                 installed from project-env (nutcrack/prod/env) each deploy
 ```
 
 The API listens on `localhost:3010` (distinct from inboxlm's 3000). Caddy
@@ -68,17 +68,24 @@ rm -rf /tmp/nutcrack-bootstrap
 The installer:
 - creates `/opt/nutcrack/{releases,bin,shared/data}`
 - installs `/opt/nutcrack/bin/activate.sh`
-- seeds `/opt/nutcrack/shared/.env` from the template
+- installs `/opt/nutcrack/shared/.env` from project-env (`nutcrack/prod`),
+  falling back to the template on VMs without project-env
 - enables (does not start) `nutcrack-api`
 
-### 4. (Optional) Fill in Jina API key
+### 4. Provision env via project-env
 
-```bash
-nano /opt/nutcrack/shared/.env
-```
+Production secrets are managed centrally in the `project-env` repo
+(`nutcrack/prod/env`, git-crypt encrypted), not hand-edited on the VM. On
+every deploy `activate.sh` runs `project-env-install nutcrack prod
+/opt/nutcrack/shared/.env`, which clones the encrypted repo into tmpfs,
+unlocks, writes the one file, and discards the clone.
 
-AI provider keys live in the app's `settings` table, set via the admin UI
-after the first user signs up — not in this file.
+Before the first deploy, make sure `nutcrack/prod/env` exists in the repo
+(at minimum `NODE_ENV`, `DATABASE_URL`, `PORT`, `CORS_ORIGIN`, `LOG_LEVEL`,
+`JINA_API_KEY`). See **Changing environment variables** below.
+
+AI provider keys (OpenRouter key + model) live in the app's `settings` table,
+set via the admin UI after the first user signs up — not in this file.
 
 ### 5. Point DNS at the VM
 
@@ -99,7 +106,30 @@ Every push to `main` triggers `.github/workflows/deploy.yml`. The full
 sequence (CI build → SCP → activate) takes ~3 minutes; the VM portion
 (extract + swap + restart) is < 10 seconds.
 
-`shared/data/nutcrack.db` and `shared/.env` are never touched by deploys.
+`shared/data/nutcrack.db` is never touched by deploys. `shared/.env` is
+re-installed from `project-env` (`nutcrack/prod/env`) on every deploy, so any
+manual edit on the VM is overwritten — change env vars via a project-env PR
+(see below).
+
+## Changing environment variables
+
+Env vars are managed in the central `project-env` repo (`nutcrack/prod/env`,
+git-crypt encrypted). Never hand-edit `/opt/nutcrack/shared/.env` on the VM.
+
+```bash
+git clone git@github.com:wanggang316/project-env.git   # or git pull
+cd project-env
+git-crypt unlock ~/.config/git-crypt-keys/project-env.key
+git switch -c env/nutcrack-<purpose>                    # e.g. env/nutcrack-rotate-jina
+$EDITOR nutcrack/prod/env                               # edit values
+git commit -am "nutcrack prod: <what changed and why, no values>"
+git push -u origin env/nutcrack-<purpose>
+gh pr create --fill
+```
+
+After a human reviews and merges the PR, redeploy nutcrack (push to `main`,
+or on the VM run
+`project-env-install nutcrack prod /opt/nutcrack/shared/.env && systemctl restart nutcrack-api`).
 
 ## Rollback
 
