@@ -14,15 +14,15 @@ export default function EmptyState({
   className = "",
 }: EmptyStateProps) {
   return (
-    <div className={`text-center py-16 ${className}`}>
+    <div className={`py-16 text-center ${className}`}>
       {icon && (
-        <div className="mb-4 flex justify-center text-base-content/20">
+        <div className="mx-auto mb-4 grid h-14 w-14 place-items-center rounded-2xl bg-teal-50 text-teal-600 [&>svg]:h-7 [&>svg]:w-7">
           {icon}
         </div>
       )}
-      <p className="text-sm font-medium text-base-content/50">{title}</p>
+      <p className="font-display text-lg text-ink">{title}</p>
       {description && (
-        <p className="text-sm text-base-content/35 mt-1.5 max-w-xs mx-auto leading-relaxed">
+        <p className="mx-auto mt-2 max-w-xs text-sm leading-relaxed text-ink/45">
           {description}
         </p>
       )}

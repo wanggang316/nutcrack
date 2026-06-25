@@ -16,11 +16,13 @@ export default function PageHeader({
   className = "",
 }: PageHeaderProps) {
   return (
-    <div className={`flex justify-between items-center mb-6 ${className}`}>
-      <div>
-        <h1 className="text-xl font-bold">{title}</h1>
+    <div className={`mb-6 flex items-center justify-between gap-4 ${className}`}>
+      <div className="min-w-0">
+        <h1 className="font-display text-2xl font-medium tracking-tight text-ink">
+          {title}
+        </h1>
         {subtitle && (
-          <p className="text-sm text-base-content/50 mt-0.5">{subtitle}</p>
+          <p className="mt-1 text-sm text-base-content/50">{subtitle}</p>
         )}
       </div>
       {actions || action ? (

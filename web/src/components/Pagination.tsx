@@ -108,14 +108,77 @@ export function SimplePagination({
   PaginationProps,
   "maxVisible" | "size" | "showPrevNext" | "className"
 >) {
+  if (totalPages <= 1) return null;
+
+  const window: number[] = [];
+  const half = 3;
+  let start = Math.max(1, currentPage - half);
+  let end = Math.min(totalPages, currentPage + half);
+  if (currentPage - start < half) end = Math.min(totalPages, end + (half - (currentPage - start)));
+  if (end - currentPage < half) start = Math.max(1, start - (half - (end - currentPage)));
+  for (let i = start; i <= end; i++) window.push(i);
+
+  const baseBtn =
+    "inline-flex h-8 min-w-8 items-center justify-center rounded-lg px-2 font-mono text-xs tabular-nums transition-colors duration-150 disabled:cursor-not-allowed disabled:opacity-40";
+
   return (
-    <Pagination
-      currentPage={currentPage}
-      totalPages={totalPages}
-      onPageChange={onPageChange}
-      maxVisible={Math.min(totalPages, 10)}
-      size="sm"
-      showPrevNext={true}
-    />
+    <nav className="mt-12 flex items-center justify-center gap-1.5 border-t border-parchment-200 pt-8">
+      <button
+        className={`${baseBtn} text-ink/55 hover:bg-white hover:text-ink`}
+        disabled={currentPage === 1}
+        onClick={() => onPageChange(currentPage - 1)}
+        aria-label="上一页"
+      >
+        ‹
+      </button>
+
+      {start > 1 && (
+        <>
+          <button
+            className={`${baseBtn} text-ink/55 hover:bg-white hover:text-ink`}
+            onClick={() => onPageChange(1)}
+          >
+            1
+          </button>
+          {start > 2 && <span className="px-1 text-ink/30">…</span>}
+        </>
+      )}
+
+      {window.map((page) => (
+        <button
+          key={page}
+          className={`${baseBtn} ${
+            page === currentPage
+              ? "bg-teal-600 font-semibold text-white"
+              : "text-ink/55 hover:bg-white hover:text-ink"
+          }`}
+          onClick={() => onPageChange(page)}
+          aria-current={page === currentPage ? "page" : undefined}
+        >
+          {page}
+        </button>
+      ))}
+
+      {end < totalPages && (
+        <>
+          {end < totalPages - 1 && <span className="px-1 text-ink/30">…</span>}
+          <button
+            className={`${baseBtn} text-ink/55 hover:bg-white hover:text-ink`}
+            onClick={() => onPageChange(totalPages)}
+          >
+            {totalPages}
+          </button>
+        </>
+      )}
+
+      <button
+        className={`${baseBtn} text-ink/55 hover:bg-white hover:text-ink`}
+        disabled={currentPage >= totalPages}
+        onClick={() => onPageChange(currentPage + 1)}
+        aria-label="下一页"
+      >
+        ›
+      </button>
+    </nav>
   );
 }

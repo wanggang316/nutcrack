@@ -1,5 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
-
+/* Fraunces (display serif) is loaded via <link> in index.html. */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -17,9 +16,13 @@
   body {
     font-feature-settings:
       "kern" 1,
-      "liga" 1,
-      "cv11" 1;
+      "liga" 1;
     background-color: #F4F8F8;
+  }
+
+  /* Optical sizing for the variable serif display face. */
+  .font-display {
+    font-optical-sizing: auto;
   }
 
   #root {
@@ -51,6 +54,33 @@
   /* Page content entrance */
   .animate-fade-up {
     animation: fadeUp 0.25s ease-out both;
+  }
+
+  /* Skeleton placeholder with a sweeping shimmer (Rule 5 loading state) */
+  .skeleton-line {
+    position: relative;
+    overflow: hidden;
+    background-color: #E5ECEC;
+    border-radius: 0.375rem;
+  }
+  .skeleton-line::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    transform: translateX(-100%);
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.65),
+      transparent
+    );
+    animation: skeletonShimmer 1.4s var(--ease-out-quart) infinite;
+  }
+
+  @keyframes skeletonShimmer {
+    100% {
+      transform: translateX(100%);
+    }
   }
 
   .action-button {
@@ -220,6 +250,9 @@
       transition-duration: 0.01ms;
     }
     .action-button-spinner {
+      animation: none;
+    }
+    .skeleton-line::after {
       animation: none;
     }
     .process-stage-chevron-active span {

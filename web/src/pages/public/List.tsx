@@ -3,12 +3,12 @@ import { useQuery } from "@tanstack/react-query";
 import { useSearchParams } from "react-router-dom";
 import {
   Bars3Icon,
+  InboxIcon,
   MagnifyingGlassIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 import type { LinksQuery, PublicLink } from "@nutcrack/shared";
 import { publicApi } from "../../utils/api";
-import Logo from "../../components/Logo";
 import { CategorySidebar } from "../../components/CategoryList";
 import { LinkCard, TagList } from "../../components/home";
 import { SimplePagination } from "../../components/Pagination";
@@ -20,29 +20,105 @@ function parsePage(raw: string | null): number {
   return parsed;
 }
 
-function groupByMonth(items: PublicLink[]): Array<{
-  month: string;
+interface MonthGroup {
+  key: string;
+  /** Chinese dateline, e.g. "2026年6月". */
+  title: string;
   links: PublicLink[];
-}> {
-  const groups = new Map<string, PublicLink[]>();
+}
+
+function groupByMonth(items: PublicLink[]): MonthGroup[] {
+  const groups = new Map<string, MonthGroup>();
   for (const link of items) {
-    const month = link.published_at
-      ? (() => {
-          const d = new Date(link.published_at);
-          return `${d.getFullYear()}年${d.getMonth() + 1}月`;
-        })()
-      : "未发布";
-    const list = groups.get(month);
-    if (list) {
-      list.push(link);
+    let key: string;
+    let group: MonthGroup;
+    if (link.published_at) {
+      const d = new Date(link.published_at);
+      key = `${d.getFullYear()}-${d.getMonth()}`;
+      group = groups.get(key) ?? {
+        key,
+        title: `${d.getFullYear()}年${d.getMonth() + 1}月`,
+        links: [],
+      };
     } else {
-      groups.set(month, [link]);
+      key = "unpublished";
+      group = groups.get(key) ?? { key, title: "未发布", links: [] };
     }
+    group.links.push(link);
+    groups.set(key, group);
   }
-  return Array.from(groups.entries()).map(([month, links]) => ({
-    month,
-    links,
-  }));
+  return Array.from(groups.values());
+}
+
+function SectionLabel({ children }: { children: React.ReactNode }) {
+  return (
+    <p className="mb-2.5 flex items-center gap-1.5 px-2.5 font-mono text-[11px] uppercase tracking-[0.18em] text-ink/40">
+      <span className="h-1 w-1 rounded-full bg-ember-500" aria-hidden="true" />
+      {children}
+    </p>
+  );
+}
+
+function SearchField({
+  value,
+  onChange,
+  inputRef,
+  className = "",
+}: {
+  value: string;
+  onChange: (v: string) => void;
+  inputRef?: React.Ref<HTMLInputElement>;
+  className?: string;
+}) {
+  return (
+    <div
+      className={`group flex items-center gap-2 rounded-full border border-parchment-200 bg-white/70 px-3.5 py-1.5 transition-colors duration-150 focus-within:border-teal-400 focus-within:bg-white ${className}`}
+    >
+      <MagnifyingGlassIcon className="h-4 w-4 shrink-0 text-ink/40 transition-colors group-focus-within:text-teal-600" />
+      <input
+        ref={inputRef}
+        type="search"
+        className="w-full bg-transparent text-sm text-ink placeholder:text-ink/35 focus:outline-none [&::-webkit-search-cancel-button]:appearance-none"
+        placeholder="搜索标题、标签、描述…"
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+      />
+    </div>
+  );
+}
+
+function FilterPill({
+  children,
+  onRemove,
+}: {
+  children: React.ReactNode;
+  onRemove: () => void;
+}) {
+  return (
+    <span className="inline-flex items-center gap-1 rounded-full bg-teal-600 py-0.5 pl-2.5 pr-1.5 text-xs text-white">
+      {children}
+      <button
+        onClick={onRemove}
+        aria-label="移除筛选"
+        className="grid h-4 w-4 place-items-center rounded-full text-white/70 transition-colors hover:bg-white/20 hover:text-white"
+      >
+        <XMarkIcon className="h-3 w-3" />
+      </button>
+    </span>
+  );
+}
+
+function MonthHeading({ group }: { group: MonthGroup }) {
+  return (
+    <div className="mb-4 flex items-baseline justify-between gap-4 border-b border-parchment-200 pb-2.5">
+      <h2 className="font-display text-2xl font-medium leading-none tracking-tight text-ink">
+        {group.title}
+      </h2>
+      <span className="shrink-0 font-mono text-xs tabular-nums text-ink/45">
+        {group.links.length} 篇
+      </span>
+    </div>
+  );
 }
 
 export default function List() {
@@ -138,6 +214,11 @@ export default function List() {
     setSearchParams(next);
   };
 
+  const handleClearAll = () => {
+    setSearchInput("");
+    setSearchParams(new URLSearchParams());
+  };
+
   const handlePageChange = (nextPage: number) => {
     const next = new URLSearchParams(searchParams);
     if (nextPage <= 1) {
@@ -154,13 +235,34 @@ export default function List() {
   const totalCount = data?.pagination.total ?? 0;
   const hasFilter = Boolean(category || selectedTags.length || q);
 
+  const popularTags = data?.tags ?? [];
+
+  const renderTagsBlock = () =>
+    popularTags.length > 0 ? (
+      <div className="mt-6">
+        <SectionLabel>热门标签</SectionLabel>
+        <div className="px-1">
+          <TagList
+            tags={popularTags.map((t) => t.name)}
+            selectedTags={selectedTags}
+            onTagClick={handleTagClick}
+            maxDisplay={20}
+          />
+        </div>
+      </div>
+    ) : null;
+
   return (
-    <div className="min-h-screen">
-      {/* Top navbar */}
-      <div className="sticky top-0 z-30 border-b border-parchment-200 bg-base-200/90 backdrop-blur">
-        <div className="mx-auto flex max-w-6xl items-center gap-2 px-4 py-3">
+    <div className="min-h-[100dvh]">
+      {/* Masthead */}
+      <header className="sticky top-0 z-30 border-b border-parchment-200 bg-parchment-50/85 backdrop-blur">
+        <div
+          className="h-[3px] w-full bg-gradient-to-r from-ember-500 via-teal-500 to-teal-600"
+          aria-hidden="true"
+        />
+        <div className="mx-auto flex max-w-6xl items-center gap-3 px-4 py-3.5 lg:px-6">
           <button
-            className="btn btn-ghost btn-sm lg:hidden"
+            className="grid h-9 w-9 place-items-center rounded-lg text-ink/60 transition-colors hover:bg-white hover:text-ink lg:hidden"
             onClick={() => setIsMobileSidebarOpen((open) => !open)}
             aria-label="切换侧边栏"
           >
@@ -171,27 +273,37 @@ export default function List() {
             )}
           </button>
 
-          <a href="/" className="ml-1 flex items-center">
-            <Logo variant="default" />
+          <a href="/" className="flex min-w-0 items-center gap-2.5">
+            <img
+              src="/logo.png"
+              width={30}
+              height={30}
+              alt="Nutcrack"
+              loading="eager"
+              decoding="async"
+              className="shrink-0"
+              style={{ width: 30, height: 30 }}
+            />
+            <span className="font-display text-xl font-semibold tracking-tight text-ink">
+              Nutcrack
+            </span>
           </a>
 
           <div className="ml-auto flex items-center gap-2">
-            <form onSubmit={handleSearchSubmit} className="join hidden lg:flex">
-              <input
-                type="search"
-                className="input input-bordered input-sm join-item w-56"
-                placeholder="搜索标题、标签、描述..."
+            <form
+              onSubmit={handleSearchSubmit}
+              className="hidden lg:block"
+            >
+              <SearchField
                 value={searchInput}
-                onChange={(e) => setSearchInput(e.target.value)}
+                onChange={setSearchInput}
+                className="w-64"
               />
-              <button type="submit" className="btn btn-primary btn-sm join-item">
-                <MagnifyingGlassIcon className="h-4 w-4" />
-              </button>
             </form>
 
             <button
               type="button"
-              className="btn btn-ghost btn-sm lg:hidden"
+              className="grid h-9 w-9 place-items-center rounded-lg text-ink/60 transition-colors hover:bg-white hover:text-ink lg:hidden"
               onClick={() => setIsMobileSearchOpen((open) => !open)}
               aria-label="搜索"
             >
@@ -205,38 +317,34 @@ export default function List() {
         </div>
 
         {isMobileSearchOpen && (
-          <div className="border-t border-parchment-200 px-4 py-2 lg:hidden">
-            <form onSubmit={handleSearchSubmit} className="join w-full">
-              <input
-                ref={mobileSearchInputRef}
-                type="search"
-                className="input input-bordered input-sm join-item flex-1"
-                placeholder="搜索标题、标签、描述..."
+          <div className="border-t border-parchment-200 px-4 py-2.5 lg:hidden">
+            <form onSubmit={handleSearchSubmit}>
+              <SearchField
                 value={searchInput}
-                onChange={(e) => setSearchInput(e.target.value)}
+                onChange={setSearchInput}
+                inputRef={mobileSearchInputRef}
               />
-              <button type="submit" className="btn btn-primary btn-sm join-item">
-                <MagnifyingGlassIcon className="h-4 w-4" />
-              </button>
             </form>
           </div>
         )}
-      </div>
+      </header>
 
       {/* Mobile sidebar drawer */}
       {isMobileSidebarOpen && (
         <div className="fixed inset-0 z-40 flex lg:hidden">
           <button
             type="button"
-            className="fixed inset-0 cursor-default bg-black/40"
+            className="fixed inset-0 cursor-default bg-ink/40 backdrop-blur-sm"
             onClick={() => setIsMobileSidebarOpen(false)}
             aria-label="关闭侧边栏"
           />
-          <aside className="relative h-full w-72 max-w-[85vw] overflow-y-auto border-r border-parchment-200 bg-base-200 p-4">
-            <div className="mb-4 flex items-center justify-between">
-              <span className="text-base font-semibold">筛选</span>
+          <aside className="relative h-full w-72 max-w-[85vw] overflow-y-auto border-r border-parchment-200 bg-parchment-50 p-4">
+            <div className="mb-5 flex items-center justify-between">
+              <span className="font-display text-base font-semibold text-ink">
+                筛选
+              </span>
               <button
-                className="btn btn-ghost btn-sm btn-circle"
+                className="grid h-8 w-8 place-items-center rounded-lg text-ink/50 transition-colors hover:bg-white hover:text-ink"
                 onClick={() => setIsMobileSidebarOpen(false)}
                 aria-label="关闭"
               >
@@ -252,28 +360,15 @@ export default function List() {
               onCategorySelect={handleCategorySelect}
             />
 
-            {data?.tags && data.tags.length > 0 && (
-              <div className="mt-4">
-                <h3 className="mb-2 px-2 text-xs font-semibold uppercase tracking-widest text-base-content/40">
-                  热门标签
-                </h3>
-                <TagList
-                  tags={data.tags.map((t) => t.name)}
-                  selectedTags={selectedTags}
-                  onTagClick={handleTagClick}
-                  maxDisplay={20}
-                  variant="outline"
-                />
-              </div>
-            )}
+            {renderTagsBlock()}
           </aside>
         </div>
       )}
 
       {/* Two-column body */}
-      <div className="mx-auto flex max-w-6xl gap-6 px-4 py-6 lg:px-6">
-        <aside className="hidden w-60 shrink-0 lg:block">
-          <div className="sticky top-20">
+      <div className="mx-auto flex max-w-6xl gap-8 px-4 py-8 lg:px-6">
+        <aside className="hidden w-56 shrink-0 lg:block">
+          <div className="sticky top-24">
             <CategorySidebar
               categories={categoriesData?.items ?? []}
               categoriesWithCounts={data?.categories}
@@ -281,91 +376,87 @@ export default function List() {
               selectedCategory={category}
               onCategorySelect={handleCategorySelect}
             />
-
-            {data?.tags && data.tags.length > 0 && (
-              <div>
-                <h3 className="mb-2 px-2 text-xs font-semibold uppercase tracking-widest text-base-content/40">
-                  热门标签
-                </h3>
-                <TagList
-                  tags={data.tags.map((t) => t.name)}
-                  selectedTags={selectedTags}
-                  onTagClick={handleTagClick}
-                  maxDisplay={20}
-                  variant="outline"
-                />
-              </div>
-            )}
+            {renderTagsBlock()}
           </div>
         </aside>
 
         <main className="min-w-0 flex-1">
           {hasFilter && (
-            <div className="mb-4 flex flex-wrap items-center gap-2">
-              <span className="text-sm text-base-content/50">筛选:</span>
+            <div className="mb-7 flex flex-wrap items-center gap-2">
+              <span className="font-mono text-[11px] uppercase tracking-wider text-ink/40">
+                筛选
+              </span>
               {category && (
-                <span className="badge badge-primary badge-sm gap-1">
+                <FilterPill onRemove={() => handleCategorySelect(undefined)}>
                   {category}
-                  <button
-                    onClick={() => handleCategorySelect(undefined)}
-                    aria-label="移除"
-                  >
-                    ×
-                  </button>
-                </span>
+                </FilterPill>
               )}
               {selectedTags.map((tag) => (
-                <span
-                  key={tag}
-                  className="badge badge-primary badge-sm gap-1"
-                >
+                <FilterPill key={tag} onRemove={() => handleTagClick(tag)}>
                   #{tag}
-                  <button onClick={() => handleTagClick(tag)} aria-label="移除">
-                    ×
-                  </button>
-                </span>
+                </FilterPill>
               ))}
               {q && (
-                <span className="badge badge-primary badge-sm gap-1">
-                  搜索: {q}
-                  <button onClick={handleClearSearch} aria-label="清除搜索">
-                    ×
-                  </button>
-                </span>
+                <FilterPill onRemove={handleClearSearch}>“{q}”</FilterPill>
               )}
+              <button
+                onClick={handleClearAll}
+                className="ml-1 text-xs text-ink/45 underline-offset-4 transition-colors hover:text-teal-700 hover:underline"
+              >
+                清除全部
+              </button>
             </div>
           )}
 
           {isLoading ? (
-            <div className="flex justify-center p-12">
-              <span className="loading loading-spinner loading-lg" />
+            <div aria-busy="true" aria-label="加载中">
+              {Array.from({ length: 6 }).map((_, i) => (
+                <div
+                  key={i}
+                  className="grid grid-cols-[1.5rem_minmax(0,1fr)] gap-x-3 border-b border-parchment-200 py-5"
+                >
+                  <div className="skeleton-line mt-1 h-3 w-4" />
+                  <div className="space-y-2.5">
+                    <div className="skeleton-line h-4 w-3/4" />
+                    <div className="skeleton-line h-2.5 w-32" />
+                    <div className="skeleton-line h-3 w-full" />
+                    <div className="skeleton-line h-3 w-5/6" />
+                  </div>
+                </div>
+              ))}
             </div>
           ) : items.length === 0 ? (
-            <div className="py-16 text-center">
-              <p className="text-sm font-medium text-base-content/50">
-                还没有已发布的链接
+            <div className="animate-fade-up py-20 text-center">
+              <div className="mx-auto mb-4 grid h-14 w-14 place-items-center rounded-2xl bg-teal-50 text-teal-600">
+                <InboxIcon className="h-7 w-7" />
+              </div>
+              <p className="font-display text-lg text-ink">
+                {hasFilter ? "没有符合条件的链接" : "还没有已发布的链接"}
               </p>
-              <p className="mx-auto mt-1.5 max-w-xs text-sm leading-relaxed text-base-content/35">
-                添加链接并完成 AI 处理后，这里会展示最新公开内容。
+              <p className="mx-auto mt-2 max-w-xs text-sm leading-relaxed text-ink/45">
+                {hasFilter
+                  ? "试试调整或清除筛选条件，换个角度看看。"
+                  : "添加链接并完成 AI 处理后，这里会展示最新公开内容。"}
               </p>
+              {hasFilter && (
+                <button
+                  onClick={handleClearAll}
+                  className="mt-5 inline-flex items-center rounded-full bg-teal-600 px-4 py-1.5 text-sm font-medium text-white transition-colors hover:bg-teal-700"
+                >
+                  清除筛选
+                </button>
+              )}
             </div>
           ) : (
             <div>
-              {grouped.map(({ month, links }) => (
-                <div key={month} className="mb-10">
-                  <div className="mb-1 flex items-center gap-3">
-                    <h2 className="shrink-0 text-xs font-semibold uppercase tracking-widest text-base-content/40">
-                      {month}
-                    </h2>
-                    <span className="text-xs text-base-content/30">
-                      {links.length}
-                    </span>
-                    <div className="flex-1 border-t border-parchment-200" />
-                  </div>
-                  {links.map((link) => (
+              {grouped.map((group) => (
+                <section key={group.key} className="animate-fade-up mb-12">
+                  <MonthHeading group={group} />
+                  {group.links.map((link, i) => (
                     <LinkCard
                       key={link.id}
                       link={link}
+                      index={i + 1}
                       categories={categoriesData?.items ?? []}
                       selectedCategory={category}
                       selectedTags={selectedTags}
@@ -375,7 +466,7 @@ export default function List() {
                       onTagClick={handleTagClick}
                     />
                   ))}
-                </div>
+                </section>
               ))}
 
               {totalPages > 1 && (

@@ -24,14 +24,14 @@ export default function CategoryBadge({
 
   return (
     <button
-      className={`badge badge-sm gap-1 rounded-md px-2 py-2 ${
+      className={`inline-flex items-center gap-1 rounded-full border px-2.5 py-0.5 text-xs leading-5 transition-colors duration-150 ${
         selectedCategory === category
-          ? "border-primary/40 bg-primary/10 text-primary"
-          : "border-base-300 bg-base-300 text-base-content/60  hover:bg-primary/5 hover:border-primary/20 hover:text-primary"
+          ? "border-teal-500 bg-teal-50 text-teal-700"
+          : "border-parchment-200 bg-parchment-100 text-ink/65 hover:border-teal-400 hover:bg-teal-50 hover:text-teal-700"
       } ${clickable ? "cursor-pointer" : "cursor-default"}`}
       onClick={handleClick}
     >
-      {icon || <CategoryIcon iconName={category} className="w-3 h-3" />}
+      {icon || <CategoryIcon iconName={category} className="h-3 w-3" />}
       {category}
     </button>
   );

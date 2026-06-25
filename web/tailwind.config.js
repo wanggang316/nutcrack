@@ -30,16 +30,34 @@ export default {
         },
       },
       fontFamily: {
-        // Inter handles latin, system CJK fallback for 中文.
+        // System grotesk for latin, native CJK fallback for 中文 — no
+        // webfont body dependency, renders SF Pro / Segoe natively.
         sans: [
-          'Inter',
           'ui-sans-serif',
           'system-ui',
           '-apple-system',
+          'BlinkMacSystemFont',
           'PingFang SC',
           'Hiragino Sans GB',
           'Microsoft YaHei',
           'sans-serif',
+        ],
+        // Editorial serif — masthead wordmark, date-lines, entry numerals.
+        // Latin/digits only; CJK falls back to a system serif.
+        display: [
+          'Fraunces',
+          'ui-serif',
+          'Georgia',
+          'Songti SC',
+          'serif',
+        ],
+        // Crafted meta — domains, dates, counts.
+        mono: [
+          'ui-monospace',
+          'SF Mono',
+          'JetBrains Mono',
+          'Menlo',
+          'monospace',
         ],
       },
     },

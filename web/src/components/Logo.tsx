@@ -30,7 +30,9 @@ export default function Logo({
         style={{ width: px, height: px }}
       />
       {showText && (
-        <span className={`font-semibold tracking-tight text-ink ${textClass}`}>
+        <span
+          className={`font-display font-semibold tracking-tight text-ink ${textClass}`}
+        >
           Nutcrack
         </span>
       )}

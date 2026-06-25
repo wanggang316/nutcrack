@@ -93,7 +93,7 @@ export default function CategoryIcon({
   className,
 }: CategoryIconProps) {
   if (!iconName) {
-    return <span className={className}>📁</span>;
+    return <Icons.FolderIcon className={className} />;
   }
 
   const IconComponent =
@@ -103,7 +103,7 @@ export default function CategoryIcon({
     ];
 
   if (!IconComponent) {
-    return <span className={className}>📁</span>;
+    return <Icons.FolderIcon className={className} />;
   }
 
   return <IconComponent className={className} />;

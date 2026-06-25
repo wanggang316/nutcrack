@@ -17,31 +17,25 @@ export default function TagList({
   showHash = true,
   className = "",
   clickable = true,
-  variant = "default",
 }: TagListProps) {
   if (tags.length === 0) return null;
 
   const displayTags = maxDisplay ? tags.slice(0, maxDisplay) : tags;
 
   return (
-    <div className={`flex flex-wrap gap-2 ${className}`}>
+    <div className={`flex flex-wrap gap-1.5 ${className}`}>
       {displayTags.map((tag) => {
         const isSelected = selectedTags.includes(tag);
-        const variantClass =
-          variant === "outline"
-            ? isSelected
-              ? "border border-primary text-primary bg-base-100"
-              : "border border-base-content/20 bg-base-100 text-base-content/60 hover:border-primary hover:text-primary"
-            : isSelected
-              ? "border-primary/40 bg-primary/10 text-primary"
-              : "border-base-300 bg-base-300 text-base-content/60 hover:bg-primary/5 hover:border-primary/20 hover:text-primary";
+        const stateClass = isSelected
+          ? "border-teal-500 bg-teal-50 text-teal-700"
+          : "border-parchment-200 bg-transparent text-ink/55 hover:border-teal-400 hover:bg-teal-50 hover:text-teal-700";
         return (
           <button
             key={tag}
-            className={`badge badge-sm rounded-md px-2 py-2 ${variantClass} ${clickable ? "cursor-pointer" : "cursor-default"}`}
+            className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs leading-5 transition-colors duration-150 ${stateClass} ${clickable ? "cursor-pointer" : "cursor-default"}`}
             onClick={() => clickable && onTagClick?.(tag)}
           >
-            {showHash ? "#" : ""}
+            {showHash && <span className="text-ink/30">#</span>}
             {tag}
           </button>
         );

@@ -118,7 +118,7 @@ export default function AdminLinkCard({
   };
 
   return (
-    <article className="group border-b border-base-200 py-4 last:border-0">
+    <article className="group border-b border-parchment-200 py-4 last:border-0">
       <div className="space-y-2">
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0 flex-1 space-y-1.5">
@@ -133,8 +133,8 @@ export default function AdminLinkCard({
               </a>
             </h3>
 
-            <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs leading-4 text-base-content/40">
-              <span className="break-all">{getDomain()}</span>
+            <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1 font-mono text-[11px] uppercase tracking-wide text-base-content/40">
+              <span className="break-all normal-case">{getDomain()}</span>
               {link.created_at && (
                 <span className="whitespace-nowrap">
                   创建于 {formatDate(link.created_at)}

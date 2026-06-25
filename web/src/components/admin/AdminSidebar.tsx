@@ -26,9 +26,9 @@ export default function AdminSidebar({
   return (
     <nav className={className}>
       <div>
-        {navGroups.map((group, i) => (
-          <div key={group.group} className={i === 0 ? "mb-6" : "mb-6"}>
-            <p className="mb-2 px-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-base-content/35">
+        {navGroups.map((group) => (
+          <div key={group.group} className="mb-6">
+            <p className="mb-2 px-3 font-mono text-[11px] uppercase tracking-[0.18em] text-base-content/40">
               {group.group}
             </p>
             <ul className="space-y-1">
@@ -41,7 +41,7 @@ export default function AdminSidebar({
                     className={({ isActive }) =>
                       `relative flex items-center gap-3 rounded-2xl px-3 py-2.5 text-sm font-medium transition-all before:absolute before:left-1.5 before:top-1/2 before:h-5 before:w-0.5 before:-translate-y-1/2 before:rounded-full before:opacity-0 before:transition-opacity ${
                         isActive
-                          ? "bg-white text-base-content shadow-[0_1px_2px_rgba(16,24,40,0.04)] before:bg-primary before:opacity-100"
+                          ? "bg-white text-base-content shadow-[0_1px_2px_rgba(16,24,40,0.04)] before:bg-ember-500 before:opacity-100"
                           : "text-base-content/58 hover:bg-white/80 hover:text-base-content"
                       }`
                     }
