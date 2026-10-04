@@ -1,0 +1,4 @@
+# nanops-monitor health probes: <name> <url> [<expected-status>]
+# Read on the VM from /opt/nutcrack/current/deploy/healthcheck. Expected status defaults to 200.
+api         http://127.0.0.1:3010/api/health
+api-public  https://nutcrack.gumpw.com/api/health
