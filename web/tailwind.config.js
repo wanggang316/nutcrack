@@ -69,30 +69,6 @@ export default {
           'tag-4-bg': tok('tag-4-bg'),
           'tag-4-text': tok('tag-4-text'),
         },
-        // Legacy names kept as aliases so the existing system extends
-        // rather than breaks; all of them now resolve to tokens.
-        ink: tok('text'),
-        teal: {
-          50: tok('primary-soft'),
-          100: tok('primary-soft'),
-          400: tok('primary'),
-          500: tok('primary'),
-          600: tok('primary'),
-          700: tok('on-primary-soft'),
-        },
-        ember: {
-          400: tok('primary'),
-          500: tok('primary'),
-          600: tok('primary-hover'),
-        },
-        parchment: {
-          50: tok('bg'),
-          100: tok('raised'),
-          200: tok('border'),
-          300: tok('border-strong'),
-        },
-        white: tok('surface'),
-        black: tok('scrim'),
       },
       fontFamily: {
         // System grotesk for latin, native CJK fallback for 中文 — no
