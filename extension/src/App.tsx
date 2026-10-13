@@ -34,7 +34,19 @@ function normalizeHost(input: string) {
 function Logo() {
   return (
     <div className="brand">
-      <img src="/logo.png" width={22} height={22} alt="" aria-hidden="true" />
+      <picture>
+        <source
+          srcSet="/bird-mark-dark.svg"
+          media="(prefers-color-scheme: dark)"
+        />
+        <img
+          src="/bird-mark.svg"
+          width={22}
+          height={22}
+          alt=""
+          aria-hidden="true"
+        />
+      </picture>
       <span>Nutcrack</span>
     </div>
   );

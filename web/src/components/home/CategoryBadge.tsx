@@ -24,10 +24,12 @@ export default function CategoryBadge({
 
   return (
     <button
-      className={`inline-flex items-center gap-1 rounded-full border px-2.5 py-0.5 text-xs leading-5 transition-colors duration-150 ${
+      type="button"
+      aria-pressed={selectedCategory === category}
+      className={`inline-flex items-center gap-1 rounded-md border px-1.5 text-xs leading-5 transition-colors duration-150 ${
         selectedCategory === category
-          ? "border-teal-500 bg-teal-50 text-teal-700"
-          : "border-parchment-200 bg-parchment-100 text-ink/65 hover:border-teal-400 hover:bg-teal-50 hover:text-teal-700"
+          ? "border-nc-primary font-medium text-nc-primary"
+          : "border-nc-border-strong text-nc-muted hover:text-nc-text"
       } ${clickable ? "cursor-pointer" : "cursor-default"}`}
       onClick={handleClick}
     >

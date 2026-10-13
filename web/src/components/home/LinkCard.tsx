@@ -44,37 +44,35 @@ export default function LinkCard({
   };
 
   return (
-    <article className="group relative -mx-3 rounded-xl px-3 transition-colors duration-200 hover:bg-white/70">
-      <div className="grid grid-cols-[1.5rem_minmax(0,1fr)_auto] gap-x-3 border-b border-parchment-200 py-5 group-last:border-b-0">
-        {/* Editorial numeral — quiet ember spark, brightens on hover */}
+    <article className="group relative">
+      <div className="grid grid-cols-[1.5rem_minmax(0,1fr)_auto] gap-x-3 border-b border-nc-border py-5 group-last:border-b-0">
+        {/* Editorial numeral — quiet, decorative */}
         <span
-          className="select-none pt-0.5 text-right font-display text-sm tabular-nums text-ember-400/70 transition-colors duration-200 group-hover:text-ember-500"
+          className="select-none pt-1 text-right font-mono text-xs tabular-nums text-nc-muted"
           aria-hidden="true"
         >
-          {typeof index === "number"
-            ? String(index).padStart(2, "0")
-            : ""}
+          {typeof index === "number" ? String(index).padStart(2, "0") : ""}
         </span>
 
-        <div className="min-w-0 space-y-2">
+        <div className="min-w-0 space-y-2.5">
           {/* Title — strongest contrast, the anchor for the eye */}
-          <h3 className="break-words text-[15px] font-semibold leading-snug text-ink">
+          <h3 className="break-words text-[17px] font-semibold leading-snug text-nc-text [text-wrap:pretty]">
             <a
               href={link.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="link-title hover:text-teal-700"
+              className="link-title hover:text-nc-primary"
             >
               {link.title || link.url}
             </a>
           </h3>
 
-          {/* Domain · Date — crafted mono meta, lowest tier */}
-          <div className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-wide text-ink/40">
+          {/* Domain · Date — meta, lowest tier */}
+          <div className="-mt-1 flex items-center gap-1.5 text-xs text-nc-muted">
             <span className="truncate">{link.domain}</span>
             {link.published_at && (
               <>
-                <span className="text-ink/25">·</span>
+                <span aria-hidden="true">·</span>
                 <span className="shrink-0">
                   {formatDateOnly(link.published_at)}
                 </span>
@@ -82,15 +80,15 @@ export default function LinkCard({
             )}
           </div>
 
-          {/* Summary — secondary tier, clamped for an even rhythm */}
+          {/* Summary — reading serif, the body of the entry */}
           {link.summary && (
-            <p className="line-clamp-2 break-words text-sm leading-relaxed text-ink/65">
+            <p className="line-clamp-3 break-words font-serif text-base leading-[1.8] text-nc-text/[0.88]">
               {link.summary}
             </p>
           )}
 
-          {/* Category + Tags */}
-          <div className="flex flex-wrap items-center gap-1.5 pt-0.5">
+          {/* Category + Tags — de-emphasised meta */}
+          <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1">
             {link.category && (
               <CategoryBadge
                 category={link.category}
@@ -111,6 +109,7 @@ export default function LinkCard({
               onTagClick={onTagClick}
               maxDisplay={3}
               showHash={true}
+              tone="quiet"
             />
           </div>
         </div>
@@ -122,8 +121,9 @@ export default function LinkCard({
               href={link.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="rounded-lg p-1.5 text-ink/35 opacity-0 transition-all duration-200 hover:bg-teal-50 hover:text-teal-700 focus-visible:opacity-100 group-hover:opacity-100"
+              className="rounded-lg p-1.5 text-nc-muted opacity-0 transition-[opacity,color] duration-200 hover:text-nc-primary focus-visible:opacity-100 group-hover:opacity-100"
               title="访问"
+              aria-label="在新窗口打开"
               onClick={handleExternalLinkClick}
             >
               <ArrowTopRightOnSquareIcon className="h-4 w-4" />

@@ -1,6 +1,1 @@
-<svg width="128" height="128" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g transform="translate(-2.2 6.6)">
-<path d="M58.6568 106.582L79.8166 91.6424L101.846 106.611L106.514 109.783V28.25H53.7284V109.906L58.6568 106.582Z" stroke="#007ACC" stroke-width="9.75"/>
-<path d="M31.2014 88.6624L52.3629 73.7225L62.5199 80.6248L74.3913 88.6917L79.0589 91.8641V5H25.9411V91.9873L31.2014 88.6624Z" stroke="#007ACC" stroke-width="9.75"/>
-</g>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64"><title>Nutcrack 栖枝 Perch</title><rect width="64" height="64" rx="15" fill="#F2F0E9"/><g transform="translate(6.4 6.4) scale(.8)"><path d="M8 58 L20 42 L26 48 Z" fill="#3C291E"/><ellipse cx="30" cy="38" rx="17" ry="13" transform="rotate(-25 30 38)" fill="#3C291E"/><circle cx="42" cy="22" r="11" fill="#3C291E"/><path d="M51 18 L63 23 L51 28 Z" fill="#3C291E"/><circle cx="44" cy="20" r="2.8" fill="#FFFFFF"/><path d="M14 56 H58" stroke="#C99B65" stroke-width="3.5" stroke-linecap="round"/><circle cx="26" cy="38" r="2" fill="#FFFFFF"/><circle cx="33" cy="44" r="1.8" fill="#FFFFFF"/><circle cx="22" cy="46" r="1.6" fill="#FFFFFF"/><circle cx="34" cy="33" r="1.6" fill="#FFFFFF"/></g></svg>

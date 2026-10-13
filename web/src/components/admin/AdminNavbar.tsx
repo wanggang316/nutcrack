@@ -48,7 +48,7 @@ export default function AdminNavbar({
 
   return (
     <div className="sticky top-0 z-30">
-      <header className="navbar min-h-16 border-b border-base-200 bg-base-100 px-4 sm:px-6">
+      <header className="navbar min-h-16 border-b border-nc-border bg-base-100 px-4 sm:px-6">
         {/* Mobile menu toggle */}
         <button
           className="btn btn-ghost btn-sm btn-circle lg:hidden"
@@ -69,7 +69,7 @@ export default function AdminNavbar({
           >
             <Logo variant="small" showText />
           </a>
-          <span className="rounded bg-base-200 px-1.5 py-0.5 text-xs font-medium text-base-content/45">
+          <span className="rounded bg-base-200 px-1.5 py-0.5 text-xs font-medium text-nc-muted">
             Admin
           </span>
         </div>
@@ -101,12 +101,10 @@ export default function AdminNavbar({
               <UserCircleIcon className="w-5 h-5" />
             </button>
             {userMenuOpen && (
-              <div className="absolute right-0 top-full z-10 mt-2 w-56 rounded-xl border border-base-200 bg-base-100 shadow-sm">
+              <div className="absolute right-0 top-full z-10 mt-2 w-56 rounded-xl border border-nc-border bg-base-100 shadow-sm">
                 {userEmail && (
-                  <div className="border-b border-base-200 px-4 py-3">
-                    <p className="mb-0.5 text-xs text-base-content/50">
-                      登录账号
-                    </p>
+                  <div className="border-b border-nc-border px-4 py-3">
+                    <p className="mb-0.5 text-xs text-nc-muted">登录账号</p>
                     <p className="truncate text-sm">{userEmail}</p>
                   </div>
                 )}
@@ -135,7 +133,7 @@ export default function AdminNavbar({
                       活动日志
                     </button>
                   </li>
-                  <li className="border-t border-base-200 mt-1 pt-1">
+                  <li className="border-t border-nc-border mt-1 pt-1">
                     <button
                       className="flex items-center gap-2 text-error"
                       onClick={() => {

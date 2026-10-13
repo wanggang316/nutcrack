@@ -7,27 +7,27 @@ function ActivityPill({ status }: { status: ActivityStatus }) {
   const config =
     status === "success"
       ? {
-          toneClassName: "text-primary",
+          toneClassName: "text-nc-tag-3-text",
           style: {
-            backgroundColor: "#e0efff",
-            borderColor: "#bddaf7",
+            backgroundColor: "var(--nc-tag-3-bg)",
+            borderColor: "var(--nc-border)",
           },
           label: "成功",
         }
       : status === "failed"
         ? {
-            toneClassName: "text-[#B42318]",
+            toneClassName: "text-nc-tag-1-text",
             style: {
-              backgroundColor: "#ffe7e7",
-              borderColor: "#ffc9c7",
+              backgroundColor: "var(--nc-tag-1-bg)",
+              borderColor: "var(--nc-border)",
             },
             label: "失败",
           }
         : {
-            toneClassName: "text-[#8A6A00]",
+            toneClassName: "text-nc-tag-2-text",
             style: {
-              backgroundColor: "#fff3d9",
-              borderColor: "#f4ddb1",
+              backgroundColor: "var(--nc-tag-2-bg)",
+              borderColor: "var(--nc-border)",
             },
             label: "待处理",
           };
@@ -55,12 +55,12 @@ export default function ActivityFeedItem({
   meta,
 }: ActivityFeedItemProps) {
   return (
-    <div className="border-b border-base-200 px-4 py-3 text-sm transition-colors duration-200 last:border-b-0 hover:bg-primary/[0.03]">
+    <div className="border-b border-nc-border px-4 py-3 text-sm transition-colors duration-200 last:border-b-0 hover:bg-primary/[0.03]">
       <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-3">
         <div className="flex min-w-0 items-center gap-3 sm:flex-1">
-          <span className="shrink-0 text-base-content/68">{action}</span>
+          <span className="shrink-0 text-nc-muted">{action}</span>
           {resource ? (
-            <span className="min-w-0 flex-1 truncate text-base-content/60">
+            <span className="min-w-0 flex-1 truncate text-nc-muted">
               {resource}
             </span>
           ) : (
@@ -70,7 +70,7 @@ export default function ActivityFeedItem({
             <ActivityPill status={status} />
           </div>
         </div>
-        <div className="flex flex-wrap items-center gap-2 text-base-content/45 sm:ml-auto sm:shrink-0">
+        <div className="flex flex-wrap items-center gap-2 text-nc-muted sm:ml-auto sm:shrink-0">
           <span>{timestamp}</span>
           {meta}
         </div>

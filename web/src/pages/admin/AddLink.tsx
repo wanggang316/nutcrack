@@ -143,7 +143,7 @@ export default function AddLink() {
               <div className="flex flex-col gap-3 sm:flex-row">
                 <input
                   type="url"
-                  className="input input-sm h-9 w-full flex-1 rounded-md border border-base-300 bg-base-100 focus:border-primary focus:outline-none"
+                  className="input input-sm h-9 w-full flex-1 rounded-md border border-nc-border-strong bg-base-100 focus:border-primary focus:outline-none"
                   placeholder="https://example.com"
                   value={url}
                   onChange={(e) => setUrl(e.target.value)}
@@ -182,7 +182,7 @@ export default function AddLink() {
 
             {status === "completed" && completedLink ? (
               <div className="space-y-4">
-                <section className="rounded-xl border border-base-200 bg-base-100 px-5 py-3">
+                <section className="rounded-xl border border-nc-border bg-base-100 px-5 py-3">
                   <AdminLinkCard
                     link={completedLink}
                     categories={categoriesData?.items}

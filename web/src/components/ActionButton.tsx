@@ -17,7 +17,7 @@ const toneConfig: Record<
     } as CSSProperties,
   },
   neutral: {
-    className: "text-base-content/70 hover:text-base-content",
+    className: "text-nc-muted hover:text-base-content",
     style: {
       "--action-bg": "color-mix(in srgb, currentColor 10%, transparent)",
       "--action-bg-hover": "color-mix(in srgb, currentColor 22%, transparent)",

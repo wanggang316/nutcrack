@@ -55,7 +55,7 @@ export default function Login() {
   if (checking) {
     return (
       <div className="min-h-screen bg-base-100 flex items-start justify-center pt-40">
-        <span className="loading loading-spinner loading-md text-base-content/30" />
+        <span className="loading loading-spinner loading-md text-nc-muted" />
       </div>
     );
   }
@@ -67,19 +67,25 @@ export default function Login() {
 
         <div className="w-full max-w-[360px] mt-12">
           {isSetup && (
-            <p className="text-sm text-base-content/50 mb-5">
+            <p className="text-sm text-nc-muted mb-5">
               首次使用，请设置管理密码
             </p>
           )}
 
           <form onSubmit={handleSubmit} className="space-y-3">
             <div>
-              <label className="block text-xs font-medium text-base-content/60 mb-1.5">
+              <label
+                htmlFor="login-email"
+                className="block text-xs font-medium text-nc-muted mb-1.5"
+              >
                 邮箱
               </label>
               <input
+                id="login-email"
+                name="email"
+                autoComplete="email"
                 type="email"
-                className="input w-full input-sm h-9 text-sm border border-base-300 focus:border-primary focus:outline-none rounded-lg"
+                className="input w-full input-sm h-9 text-sm border border-nc-border-strong focus:border-primary focus:outline-none rounded-lg"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="you@example.com"
@@ -89,12 +95,18 @@ export default function Login() {
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-base-content/60 mb-1.5">
+              <label
+                htmlFor="login-password"
+                className="block text-xs font-medium text-nc-muted mb-1.5"
+              >
                 密码
               </label>
               <input
+                id="login-password"
+                name="password"
+                autoComplete="current-password"
                 type="password"
-                className="input w-full input-sm h-9 text-sm border border-base-300 focus:border-primary focus:outline-none rounded-lg"
+                className="input w-full input-sm h-9 text-sm border border-nc-border-strong focus:border-primary focus:outline-none rounded-lg"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="请输入密码"

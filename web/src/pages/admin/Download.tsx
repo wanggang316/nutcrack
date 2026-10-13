@@ -50,7 +50,7 @@ export default function Download() {
             <h2 className="text-xl font-semibold text-base-content">
               在浏览器里一键收集网页到 Nutcrack
             </h2>
-            <p className="text-sm leading-6 text-base-content/65">
+            <p className="text-sm leading-6 text-nc-muted">
               这是当前最直接的使用入口，适合在浏览网页时快速保存内容。
             </p>
             <div className="flex flex-wrap gap-2 pt-1">
@@ -70,7 +70,7 @@ export default function Download() {
               <BoltIcon className="h-4 w-4 text-primary" />
               安装步骤
             </div>
-            <ol className="list-decimal space-y-2 pl-4 text-sm text-base-content/65">
+            <ol className="list-decimal space-y-2 pl-4 text-sm text-nc-muted">
               {chromeSteps.map((step) => (
                 <li key={step}>{step}</li>
               ))}
@@ -87,7 +87,7 @@ export default function Download() {
               href={entry.href}
               target="_blank"
               rel="noreferrer"
-              className="group relative block overflow-hidden rounded-xl border border-base-200 bg-base-100 px-5 py-5 transition-colors duration-200 hover:bg-primary/[0.04]"
+              className="group relative block overflow-hidden rounded-xl border border-nc-border bg-base-100 px-5 py-5 transition-colors duration-200 hover:bg-primary/[0.04]"
             >
               <div
                 className={`pointer-events-none absolute text-primary/[0.12] transition-colors duration-200 group-hover:text-primary/[0.18] ${entry.iconPositionClassName}`}
@@ -102,12 +102,12 @@ export default function Download() {
                     {entry.title}
                   </div>
                 </div>
-                <p className="mt-2 text-sm leading-6 text-base-content/62">
+                <p className="mt-2 text-sm leading-6 text-nc-muted">
                   {entry.description}
                 </p>
                 <div className="mt-4 inline-flex items-center gap-2 text-sm font-medium text-primary">
                   <span>{entry.buttonLabel}</span>
-                  <span className="text-base-content/25 transition-all duration-200 ease-[var(--ease-out-quint)] group-hover:translate-x-1 group-hover:text-primary motion-reduce:transform-none">
+                  <span className="text-nc-muted transition-all duration-200 ease-[var(--ease-out-quint)] group-hover:translate-x-1 group-hover:text-primary motion-reduce:transform-none">
                     →
                   </span>
                 </div>

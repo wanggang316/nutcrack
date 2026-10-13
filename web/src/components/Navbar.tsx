@@ -72,7 +72,7 @@ export default function Navbar({
 
   return (
     <div className={`sticky top-0 z-30 ${className}`}>
-      <nav className="navbar bg-base-100 border-b border-base-200">
+      <nav className="navbar bg-base-100 border-b border-nc-border">
         {/* Left side - Mobile menu icon + Logo */}
         <div className="flex-1 flex items-center gap-1">
           {/* Mobile sidebar toggle - left of logo, hidden on lg+ */}
@@ -174,7 +174,7 @@ export default function Navbar({
 
         {/* Mobile Nav Items */}
         {isMobileNavOpen && navItems && navItems.length > 0 && (
-          <div className="navbar-center lg:hidden absolute top-full left-0 right-0 bg-base-100 border-b border-base-200">
+          <div className="navbar-center lg:hidden absolute top-full left-0 right-0 bg-base-100 border-b border-nc-border">
             <ul className="menu menu-horizontal px-4 gap-2 py-2">
               {navItems.map((item) => (
                 <li key={item.href}>
@@ -198,7 +198,7 @@ export default function Navbar({
 
       {/* Mobile Search Bar */}
       {search && isMobileSearchOpen && (
-        <div className="lg:hidden bg-base-100 border-b border-base-200 px-4 py-2">
+        <div className="lg:hidden bg-base-100 border-b border-nc-border px-4 py-2">
           <form onSubmit={handleMobileSearchSubmit} className="join w-full">
             <input
               ref={mobileSearchInputRef}

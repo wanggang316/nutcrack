@@ -10,10 +10,7 @@ interface CategoryListProps {
 
 function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
-    <p className="mb-2.5 flex items-center gap-1.5 px-2.5 font-mono text-[11px] uppercase tracking-[0.18em] text-ink/40">
-      <span className="h-1 w-1 rounded-full bg-ember-500" aria-hidden="true" />
-      {children}
-    </p>
+    <p className="mb-2 px-2.5 text-xs font-medium text-nc-muted">{children}</p>
   );
 }
 
@@ -32,10 +29,12 @@ function CategoryRow({
 }) {
   return (
     <button
-      className={`flex w-full items-center justify-between rounded-lg border-l-2 py-1.5 pr-2.5 pl-2 text-sm transition-colors duration-150 ${
+      type="button"
+      aria-current={active ? "true" : undefined}
+      className={`flex w-full items-center justify-between rounded-lg px-2.5 py-1.5 text-sm transition-colors duration-150 ${
         active
-          ? "border-ember-500 bg-teal-50 font-semibold text-teal-700"
-          : "border-transparent text-ink/65 hover:bg-white hover:text-ink"
+          ? "bg-nc-raised font-semibold text-nc-text"
+          : "text-nc-muted hover:text-nc-text"
       }`}
       onClick={onClick}
     >
@@ -45,7 +44,7 @@ function CategoryRow({
       </span>
       <span
         className={`font-mono text-[11px] tabular-nums ${
-          active ? "text-teal-600/70" : "text-ink/35"
+          active ? "font-semibold text-nc-primary" : "text-nc-muted"
         }`}
       >
         {count}

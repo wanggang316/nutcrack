@@ -174,11 +174,11 @@ export default function CategorySettingsContent() {
         {showForm ? (
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="rounded-lg bg-base-100 px-4 py-4">
-              <label className="mb-1.5 block text-xs font-medium text-base-content/60">
+              <label className="mb-1.5 block text-xs font-medium text-nc-muted">
                 分类名称
               </label>
               <input
-                className="input input-sm h-9 w-full rounded-md border border-base-300 bg-base-100 focus:border-primary focus:outline-none"
+                className="input input-sm h-9 w-full rounded-md border border-nc-border-strong bg-base-100 focus:border-primary focus:outline-none"
                 placeholder="例如：AI、产品、设计"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
@@ -195,7 +195,7 @@ export default function CategorySettingsContent() {
                   <p className="text-sm font-semibold text-base-content">
                     图标预览
                   </p>
-                  <p className="text-xs text-base-content/50">
+                  <p className="text-xs text-nc-muted">
                     {effectiveIcon || "未选择"}
                   </p>
                 </div>
@@ -210,7 +210,7 @@ export default function CategorySettingsContent() {
                     className={`flex h-11 w-11 items-center justify-center rounded-lg transition-colors ${
                       effectiveIcon === item
                         ? "bg-primary/12 text-primary ring-1 ring-primary/20"
-                        : "text-base-content/50 hover:bg-base-100 hover:text-base-content"
+                        : "text-nc-muted hover:bg-base-100 hover:text-base-content"
                     }`}
                     onClick={() => {
                       setIcon(item);
@@ -223,7 +223,7 @@ export default function CategorySettingsContent() {
               </div>
 
               <input
-                className="input input-sm mt-3 h-9 w-full rounded-md border border-base-300 bg-base-100 font-mono focus:border-primary focus:outline-none"
+                className="input input-sm mt-3 h-9 w-full rounded-md border border-nc-border-strong bg-base-100 font-mono focus:border-primary focus:outline-none"
                 placeholder="自定义图标名称，如 FireIcon"
                 value={customIcon}
                 onChange={(e) => {
@@ -234,11 +234,11 @@ export default function CategorySettingsContent() {
             </div>
 
             <div className="rounded-lg bg-base-100 px-4 py-4">
-              <label className="mb-1.5 block text-xs font-medium text-base-content/60">
+              <label className="mb-1.5 block text-xs font-medium text-nc-muted">
                 分类描述
               </label>
               <input
-                className="input input-sm h-9 w-full rounded-md border border-base-300 bg-base-100 focus:border-primary focus:outline-none"
+                className="input input-sm h-9 w-full rounded-md border border-nc-border-strong bg-base-100 focus:border-primary focus:outline-none"
                 placeholder="说明这个分类主要收纳什么内容"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
@@ -263,16 +263,16 @@ export default function CategorySettingsContent() {
             </div>
           </form>
         ) : (
-          <div className="rounded-lg bg-base-100 px-5 py-10 text-center text-sm text-base-content/50">
+          <div className="rounded-lg bg-base-100 px-5 py-10 text-center text-sm text-nc-muted">
             点击「+ 添加」，或从下方进入编辑。
           </div>
         )}
       </section>
 
-      <section className="space-y-4 rounded-xl border border-base-200 bg-base-100 p-5">
+      <section className="space-y-4 rounded-xl border border-nc-border bg-base-100 p-5">
         <div className="flex items-center justify-between">
           <p className="text-sm font-semibold text-base-content">已有分类</p>
-          <div className="rounded-full bg-base-200 px-3 py-1 text-xs text-base-content/55">
+          <div className="rounded-full bg-base-200 px-3 py-1 text-xs text-nc-muted">
             {data?.items.length ?? 0} 项
           </div>
         </div>
@@ -282,7 +282,7 @@ export default function CategorySettingsContent() {
             <span className="loading loading-spinner loading-lg" />
           </div>
         ) : data?.items.length === 0 ? (
-          <div className="rounded-lg bg-base-200/60 px-6 py-16 text-center text-sm text-base-content/45">
+          <div className="rounded-lg bg-base-200/60 px-6 py-16 text-center text-sm text-nc-muted">
             还没有分类。
           </div>
         ) : (
@@ -290,7 +290,7 @@ export default function CategorySettingsContent() {
             {data?.items.map((cat) => (
               <div
                 key={cat.id}
-                className="flex items-center gap-4 rounded-xl border border-base-200 bg-base-100 px-4 py-4 transition-colors hover:bg-base-200/50"
+                className="flex items-center gap-4 rounded-xl border border-nc-border bg-base-100 px-4 py-4 transition-colors hover:bg-base-200/50"
               >
                 <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
                   <CategoryIcon iconName={cat.icon} className="h-5 w-5" />
@@ -301,11 +301,11 @@ export default function CategorySettingsContent() {
                     <div className="text-sm font-semibold leading-snug text-base-content">
                       {cat.name}
                     </div>
-                    <span className="rounded-full bg-base-200 px-2 py-0.5 text-[11px] text-base-content/45">
+                    <span className="rounded-full bg-base-200 px-2 py-0.5 text-[11px] text-nc-muted">
                       #{cat.sort_order}
                     </span>
                   </div>
-                  <div className="mt-1 text-sm text-base-content/55">
+                  <div className="mt-1 text-sm text-nc-muted">
                     {cat.description || "暂无描述"}
                   </div>
                 </div>

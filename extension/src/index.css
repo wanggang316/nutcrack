@@ -1,20 +1,71 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
 
+/* Nutcrack v3 palette C tokens — keep in sync with web/theme/tokens.cjs. */
 :root {
-  font-family: "Inter", "PingFang SC", "Hiragino Sans GB", "Segoe UI", sans-serif;
-  color: #0F2A3D;
-  background:
-    radial-gradient(
-      circle at top left,
-      rgba(15, 118, 110, 0.18),
-      transparent 45%
-    ),
-    radial-gradient(
-      circle at bottom right,
-      rgba(234, 88, 12, 0.12),
-      transparent 50%
-    ),
-    linear-gradient(180deg, #FBF7EE 0%, #F5EFDF 100%);
+  color-scheme: light;
+  --nc-bg: #faf9f4;
+  --nc-surface: #fefefb;
+  --nc-raised: #f1f1e8;
+  --nc-sunken: #ecece1;
+  --nc-border: #e2e2d7;
+  --nc-border-strong: #cfcfc0;
+  --nc-text: #24231a;
+  --nc-muted: #656457;
+  --nc-subtle: #a09f91;
+  --nc-primary: #4a6d51;
+  --nc-primary-hover: #3a5c41;
+  --nc-primary-soft: #e4eee6;
+  --nc-on-primary-soft: #3c5f43;
+  --nc-on-primary: #ffffff;
+  --nc-success: #397949;
+  --nc-warn: #915c08;
+  --nc-error: #ab4238;
+  --nc-tag-1-bg: #faeae7;
+  --nc-tag-1-text: #7a524b;
+  --nc-tag-2-bg: #f4eee1;
+  --nc-tag-2-text: #6c5b39;
+  --nc-tag-3-bg: #e6f2e8;
+  --nc-tag-3-text: #47674d;
+  --nc-tag-4-bg: #e6f0fa;
+  --nc-tag-4-text: #46607c;
+  --nc-scrim: #11120e;
+
+  font-family:
+    "Inter", "PingFang SC", "Hiragino Sans GB", "Segoe UI", sans-serif;
+  color: var(--nc-text);
+  background: var(--nc-bg);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    --nc-bg: #171814;
+    --nc-surface: #1d1f1a;
+    --nc-raised: #262723;
+    --nc-sunken: #11120e;
+    --nc-border: #30312c;
+    --nc-border-strong: #42433e;
+    --nc-text: #e7e7e0;
+    --nc-muted: #a4a5a0;
+    --nc-subtle: #686a65;
+    --nc-primary: #93b599;
+    --nc-primary-hover: #a2c5a8;
+    --nc-primary-soft: #243227;
+    --nc-on-primary-soft: #b2d5b8;
+    --nc-on-primary: #171814;
+    --nc-success: #86b990;
+    --nc-warn: #cba36d;
+    --nc-error: #de958b;
+    --nc-tag-1-bg: #372a28;
+    --nc-tag-1-text: #d9b4ad;
+    --nc-tag-2-bg: #322d22;
+    --nc-tag-2-text: #cbbc9d;
+    --nc-tag-3-bg: #273129;
+    --nc-tag-3-text: #aac6af;
+    --nc-tag-4-bg: #262f38;
+    --nc-tag-4-text: #a8c1da;
+    --nc-scrim: #11120e;
+  }
 }
 
 * {
@@ -47,11 +98,11 @@ button {
   display: flex;
   flex-direction: column;
   gap: 18px;
-  border: 1px solid rgba(15, 42, 61, 0.08);
+  border: 1px solid var(--nc-border);
   border-radius: 20px;
   padding: 18px;
-  background: rgba(255, 255, 255, 0.92);
-  box-shadow: 0 18px 48px rgba(15, 42, 61, 0.08);
+  background: var(--nc-surface);
+  box-shadow: 0 18px 48px color-mix(in srgb, var(--nc-scrim) 8%, transparent);
   backdrop-filter: blur(10px);
 }
 
@@ -79,7 +130,7 @@ button {
   margin: 0;
   font-size: 13px;
   line-height: 1.5;
-  color: rgba(15, 42, 61, 0.6);
+  color: var(--nc-muted);
 }
 
 .brand {
@@ -97,7 +148,7 @@ button {
   font-size: 18px;
   font-weight: 700;
   letter-spacing: -0.01em;
-  color: #0F2A3D;
+  color: var(--nc-text);
 }
 
 .form-grid {
@@ -113,16 +164,16 @@ button {
 .field span {
   font-size: 13px;
   font-weight: 600;
-  color: rgba(15, 42, 61, 0.72);
+  color: var(--nc-muted);
 }
 
 .field input {
   width: 100%;
-  border: 1px solid #D9D0BB;
+  border: 1px solid var(--nc-border-strong);
   border-radius: 12px;
   padding: 10px 12px;
-  background: rgba(251, 247, 238, 0.85);
-  color: #0F2A3D;
+  background: var(--nc-surface);
+  color: var(--nc-text);
   outline: none;
   transition:
     border-color 0.18s ease,
@@ -131,9 +182,9 @@ button {
 }
 
 .field input:focus {
-  border-color: #0F766E;
-  box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.18);
-  background: #ffffff;
+  border-color: var(--nc-primary);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--nc-primary) 22%, transparent);
+  background: var(--nc-surface);
 }
 
 .primary-button,
@@ -142,22 +193,25 @@ button {
   border-radius: 12px;
   padding: 10px 14px;
   font-weight: 600;
-  transition: transform 0.12s ease, box-shadow 0.18s ease, background 0.18s ease;
+  transition:
+    transform 0.12s ease,
+    box-shadow 0.18s ease,
+    background 0.18s ease;
 }
 
 .primary-button {
-  background: #0F766E;
-  color: #ffffff;
-  box-shadow: 0 8px 20px rgba(15, 118, 110, 0.22);
+  background: var(--nc-primary);
+  color: var(--nc-on-primary);
+  box-shadow: 0 8px 20px color-mix(in srgb, var(--nc-primary) 22%, transparent);
 }
 
 .primary-button:hover:not(:disabled) {
-  background: #0E5F58;
+  background: var(--nc-primary-hover);
 }
 
 .primary-button:active:not(:disabled) {
   transform: translateY(1px);
-  box-shadow: 0 4px 12px rgba(15, 118, 110, 0.18);
+  box-shadow: 0 4px 12px color-mix(in srgb, var(--nc-primary) 18%, transparent);
 }
 
 .primary-button:disabled,
@@ -174,12 +228,12 @@ button {
   width: 34px;
   height: 34px;
   padding: 0;
-  background: rgba(15, 42, 61, 0.06);
-  color: #0F2A3D;
+  background: var(--nc-raised);
+  color: var(--nc-text);
 }
 
 .icon-button:hover:not(:disabled) {
-  background: rgba(15, 42, 61, 0.10);
+  background: var(--nc-sunken);
 }
 
 .feedback {
@@ -191,13 +245,13 @@ button {
 }
 
 .feedback-success {
-  background: rgba(22, 163, 74, 0.10);
-  color: #15803D;
+  background: var(--nc-tag-3-bg);
+  color: var(--nc-tag-3-text);
 }
 
 .feedback-error {
-  background: rgba(180, 35, 24, 0.10);
-  color: #B42318;
+  background: var(--nc-tag-1-bg);
+  color: var(--nc-error);
 }
 
 .status-block {
@@ -205,13 +259,13 @@ button {
   align-items: center;
   gap: 10px;
   font-size: 14px;
-  color: rgba(15, 42, 61, 0.72);
+  color: var(--nc-muted);
 }
 
 .status-dot {
   width: 10px;
   height: 10px;
   border-radius: 999px;
-  background: #0F766E;
-  box-shadow: 0 0 0 6px rgba(15, 118, 110, 0.12);
+  background: var(--nc-primary);
+  box-shadow: 0 0 0 6px color-mix(in srgb, var(--nc-primary) 14%, transparent);
 }
