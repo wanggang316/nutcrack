@@ -114,17 +114,19 @@ export function SimplePagination({
   const half = 3;
   let start = Math.max(1, currentPage - half);
   let end = Math.min(totalPages, currentPage + half);
-  if (currentPage - start < half) end = Math.min(totalPages, end + (half - (currentPage - start)));
-  if (end - currentPage < half) start = Math.max(1, start - (half - (end - currentPage)));
+  if (currentPage - start < half)
+    end = Math.min(totalPages, end + (half - (currentPage - start)));
+  if (end - currentPage < half)
+    start = Math.max(1, start - (half - (end - currentPage)));
   for (let i = start; i <= end; i++) window.push(i);
 
   const baseBtn =
     "inline-flex h-8 min-w-8 items-center justify-center rounded-lg px-2 font-mono text-xs tabular-nums transition-colors duration-150 disabled:cursor-not-allowed disabled:opacity-40";
 
   return (
-    <nav className="mt-12 flex items-center justify-center gap-1.5 border-t border-parchment-200 pt-8">
+    <nav className="mt-12 flex items-center justify-center gap-1.5 border-t border-nc-border pt-8">
       <button
-        className={`${baseBtn} text-ink/55 hover:bg-white hover:text-ink`}
+        className={`${baseBtn} text-nc-muted hover:bg-nc-surface hover:text-nc-text`}
         disabled={currentPage === 1}
         onClick={() => onPageChange(currentPage - 1)}
         aria-label="上一页"
@@ -135,12 +137,12 @@ export function SimplePagination({
       {start > 1 && (
         <>
           <button
-            className={`${baseBtn} text-ink/55 hover:bg-white hover:text-ink`}
+            className={`${baseBtn} text-nc-muted hover:bg-nc-surface hover:text-nc-text`}
             onClick={() => onPageChange(1)}
           >
             1
           </button>
-          {start > 2 && <span className="px-1 text-ink/30">…</span>}
+          {start > 2 && <span className="px-1 text-nc-muted">…</span>}
         </>
       )}
 
@@ -149,8 +151,8 @@ export function SimplePagination({
           key={page}
           className={`${baseBtn} ${
             page === currentPage
-              ? "bg-teal-600 font-semibold text-white"
-              : "text-ink/55 hover:bg-white hover:text-ink"
+              ? "bg-nc-primary font-semibold text-nc-on-primary"
+              : "text-nc-muted hover:bg-nc-surface hover:text-nc-text"
           }`}
           onClick={() => onPageChange(page)}
           aria-current={page === currentPage ? "page" : undefined}
@@ -161,9 +163,11 @@ export function SimplePagination({
 
       {end < totalPages && (
         <>
-          {end < totalPages - 1 && <span className="px-1 text-ink/30">…</span>}
+          {end < totalPages - 1 && (
+            <span className="px-1 text-nc-muted">…</span>
+          )}
           <button
-            className={`${baseBtn} text-ink/55 hover:bg-white hover:text-ink`}
+            className={`${baseBtn} text-nc-muted hover:bg-nc-surface hover:text-nc-text`}
             onClick={() => onPageChange(totalPages)}
           >
             {totalPages}
@@ -172,7 +176,7 @@ export function SimplePagination({
       )}
 
       <button
-        className={`${baseBtn} text-ink/55 hover:bg-white hover:text-ink`}
+        className={`${baseBtn} text-nc-muted hover:bg-nc-surface hover:text-nc-text`}
         disabled={currentPage >= totalPages}
         onClick={() => onPageChange(currentPage + 1)}
         aria-label="下一页"

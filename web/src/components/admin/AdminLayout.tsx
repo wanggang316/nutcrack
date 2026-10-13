@@ -86,12 +86,12 @@ export default function AdminLayout() {
   }, [userMenuOpen]);
 
   return (
-    <div className="min-h-screen bg-parchment-50 text-base-content">
-      <div className="sticky top-0 z-40 border-b border-black/5 bg-parchment-50/95 px-3 py-2 backdrop-blur lg:hidden">
+    <div className="min-h-screen bg-nc-bg text-base-content">
+      <div className="sticky top-0 z-40 border-b border-nc-border bg-nc-bg/95 px-3 py-2 backdrop-blur lg:hidden">
         <div className="flex items-center justify-between gap-3">
           <button
             type="button"
-            className="inline-flex h-10 w-10 items-center justify-center rounded-2xl text-base-content/65 transition-colors hover:bg-white hover:text-base-content"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-2xl text-nc-muted transition-colors hover:bg-nc-surface hover:text-base-content"
             onClick={() => setMobileNavOpen((open) => !open)}
             aria-label={mobileNavOpen ? "关闭导航" : "打开导航"}
           >
@@ -116,16 +116,16 @@ export default function AdminLayout() {
       </div>
 
       {mobileNavOpen ? (
-        <div className="fixed inset-0 z-30 bg-black/30 lg:hidden">
+        <div className="fixed inset-0 z-30 bg-nc-scrim/30 lg:hidden">
           <button
             type="button"
             className="absolute inset-0 cursor-default"
             onClick={() => setMobileNavOpen(false)}
             aria-label="关闭导航遮罩"
           />
-          <aside className="absolute inset-y-0 left-0 w-[min(22rem,88vw)] bg-parchment-50 shadow-[0_18px_48px_rgba(16,24,40,0.18)]">
-            <div className="flex h-full flex-col bg-parchment-50 px-3 py-3">
-              <div className="flex items-center justify-between bg-parchment-50 px-2 py-2">
+          <aside className="absolute inset-y-0 left-0 w-[min(22rem,88vw)] bg-nc-bg shadow-[0_18px_48px_color-mix(in_srgb,var(--nc-scrim)_18%,transparent)]">
+            <div className="flex h-full flex-col bg-nc-bg px-3 py-3">
+              <div className="flex items-center justify-between bg-nc-bg px-2 py-2">
                 <a
                   href="/"
                   className="inline-flex items-center gap-3 rounded-xl transition-opacity hover:opacity-80"
@@ -134,7 +134,7 @@ export default function AdminLayout() {
                 </a>
                 <button
                   type="button"
-                  className="inline-flex h-9 w-9 items-center justify-center rounded-2xl text-base-content/55 transition-colors hover:bg-white hover:text-base-content"
+                  className="inline-flex h-9 w-9 items-center justify-center rounded-2xl text-nc-muted transition-colors hover:bg-nc-surface hover:text-base-content"
                   onClick={() => setMobileNavOpen(false)}
                   aria-label="关闭导航"
                 >
@@ -142,7 +142,7 @@ export default function AdminLayout() {
                 </button>
               </div>
 
-              <div className="mt-2 min-h-0 flex-1 overflow-y-auto bg-parchment-50 px-1">
+              <div className="mt-2 min-h-0 flex-1 overflow-y-auto bg-nc-bg px-1">
                 <AdminSidebar
                   navGroups={navGroups}
                   onLinkClick={() => setMobileNavOpen(false)}
@@ -150,28 +150,28 @@ export default function AdminLayout() {
               </div>
 
               <div
-                className="relative mt-2 bg-parchment-50 px-1"
+                className="relative mt-2 bg-nc-bg px-1"
                 ref={mobileUserMenuRef}
               >
                 <button
                   type="button"
-                  className="flex w-full items-center gap-3 rounded-2xl px-3 py-2.5 text-left transition-colors hover:bg-white/80"
+                  className="flex w-full items-center gap-3 rounded-2xl px-3 py-2.5 text-left transition-colors hover:bg-nc-surface/80"
                   onClick={() => setUserMenuOpen((open) => !open)}
                 >
-                  <UserCircleIcon className="h-8 w-8 shrink-0 text-base-content/45" />
+                  <UserCircleIcon className="h-8 w-8 shrink-0 text-nc-muted" />
                   <span className="min-w-0 flex-1">
-                    <span className="block truncate text-sm font-medium text-base-content/80">
+                    <span className="block truncate text-sm font-medium text-nc-muted">
                       {user?.email ?? "未登录"}
                     </span>
                   </span>
-                  <ChevronUpDownIcon className="h-4 w-4 shrink-0 text-base-content/35" />
+                  <ChevronUpDownIcon className="h-4 w-4 shrink-0 text-nc-muted" />
                 </button>
 
                 {userMenuOpen ? (
-                  <div className="absolute inset-x-1 bottom-full z-20 mb-2 rounded-2xl border border-black/6 bg-white p-1.5 shadow-[0_12px_40px_rgba(16,24,40,0.10)]">
+                  <div className="absolute inset-x-1 bottom-full z-20 mb-2 rounded-2xl border border-nc-border bg-nc-surface p-1.5 shadow-[0_12px_40px_color-mix(in_srgb,var(--nc-scrim)_10%,transparent)]">
                     <button
                       type="button"
-                      className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-base-content/65 transition-colors hover:bg-parchment-100 hover:text-base-content"
+                      className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-nc-muted transition-colors hover:bg-nc-raised hover:text-base-content"
                       onClick={() => {
                         setUserMenuOpen(false);
                         setSettingsOpen(true);
@@ -182,7 +182,7 @@ export default function AdminLayout() {
                     </button>
                     <button
                       type="button"
-                      className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-base-content/65 transition-colors hover:bg-parchment-100 hover:text-base-content"
+                      className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-nc-muted transition-colors hover:bg-nc-raised hover:text-base-content"
                       onClick={() => handleNavigate("/admin/tools/logs")}
                     >
                       <ClipboardDocumentListIcon className="h-4 w-4 shrink-0" />
@@ -190,7 +190,7 @@ export default function AdminLayout() {
                     </button>
                     <button
                       type="button"
-                      className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-base-content/65 transition-colors hover:bg-parchment-100 hover:text-base-content"
+                      className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-nc-muted transition-colors hover:bg-nc-raised hover:text-base-content"
                       onClick={() => handleNavigate("/admin/tools/download")}
                     >
                       <ArrowDownTrayIcon className="h-4 w-4 shrink-0" />
@@ -215,10 +215,10 @@ export default function AdminLayout() {
         </div>
       ) : null}
 
-      <div className="mx-auto min-h-[calc(100dvh-3.75rem)] w-full max-w-[1600px] gap-1.5 bg-parchment-50 px-1 py-1 sm:px-1.5 sm:py-1.5 lg:grid lg:min-h-screen lg:grid-cols-[220px_minmax(0,1fr)] lg:px-1.5 lg:py-1.5 xl:px-2">
-        <aside className="hidden bg-parchment-50 lg:sticky lg:top-2.5 lg:block lg:h-[calc(100vh-1.25rem)]">
-          <div className="flex h-full flex-col bg-parchment-50 px-0.5 py-0.5">
-            <div className="bg-parchment-50 px-2 py-2">
+      <div className="mx-auto min-h-[calc(100dvh-3.75rem)] w-full max-w-[1600px] gap-1.5 bg-nc-bg px-1 py-1 sm:px-1.5 sm:py-1.5 lg:grid lg:min-h-screen lg:grid-cols-[220px_minmax(0,1fr)] lg:px-1.5 lg:py-1.5 xl:px-2">
+        <aside className="hidden bg-nc-bg lg:sticky lg:top-2.5 lg:block lg:h-[calc(100vh-1.25rem)]">
+          <div className="flex h-full flex-col bg-nc-bg px-0.5 py-0.5">
+            <div className="bg-nc-bg px-2 py-2">
               <a
                 href="/"
                 className="inline-flex items-center gap-3 rounded-xl transition-opacity hover:opacity-80"
@@ -227,33 +227,33 @@ export default function AdminLayout() {
               </a>
             </div>
 
-            <div className="mt-2 min-h-0 flex-1 overflow-y-auto bg-parchment-50 px-1">
+            <div className="mt-2 min-h-0 flex-1 overflow-y-auto bg-nc-bg px-1">
               <AdminSidebar navGroups={navGroups} />
             </div>
 
             <div
-              className="relative mt-2 bg-parchment-50 px-1"
+              className="relative mt-2 bg-nc-bg px-1"
               ref={desktopUserMenuRef}
             >
               <button
                 type="button"
-                className="flex w-full items-center gap-3 rounded-2xl px-3 py-2.5 text-left transition-colors hover:bg-white/80"
+                className="flex w-full items-center gap-3 rounded-2xl px-3 py-2.5 text-left transition-colors hover:bg-nc-surface/80"
                 onClick={() => setUserMenuOpen((open) => !open)}
               >
-                <UserCircleIcon className="h-8 w-8 shrink-0 text-base-content/45" />
+                <UserCircleIcon className="h-8 w-8 shrink-0 text-nc-muted" />
                 <span className="min-w-0 flex-1">
-                  <span className="block truncate text-sm font-medium text-base-content/80">
+                  <span className="block truncate text-sm font-medium text-nc-muted">
                     {user?.email ?? "未登录"}
                   </span>
                 </span>
-                <ChevronUpDownIcon className="h-4 w-4 shrink-0 text-base-content/35" />
+                <ChevronUpDownIcon className="h-4 w-4 shrink-0 text-nc-muted" />
               </button>
 
               {userMenuOpen ? (
-                <div className="absolute inset-x-1 bottom-full z-20 mb-2 rounded-2xl border border-black/6 bg-white p-1.5 shadow-[0_12px_40px_rgba(16,24,40,0.10)]">
+                <div className="absolute inset-x-1 bottom-full z-20 mb-2 rounded-2xl border border-nc-border bg-nc-surface p-1.5 shadow-[0_12px_40px_color-mix(in_srgb,var(--nc-scrim)_10%,transparent)]">
                   <button
                     type="button"
-                    className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-base-content/65 transition-colors hover:bg-parchment-100 hover:text-base-content"
+                    className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-nc-muted transition-colors hover:bg-nc-raised hover:text-base-content"
                     onClick={() => {
                       setUserMenuOpen(false);
                       setSettingsOpen(true);
@@ -264,7 +264,7 @@ export default function AdminLayout() {
                   </button>
                   <button
                     type="button"
-                    className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-base-content/65 transition-colors hover:bg-parchment-100 hover:text-base-content"
+                    className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-nc-muted transition-colors hover:bg-nc-raised hover:text-base-content"
                     onClick={() => handleNavigate("/admin/tools/logs")}
                   >
                     <ClipboardDocumentListIcon className="h-4 w-4 shrink-0" />
@@ -272,7 +272,7 @@ export default function AdminLayout() {
                   </button>
                   <button
                     type="button"
-                    className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-base-content/65 transition-colors hover:bg-parchment-100 hover:text-base-content"
+                    className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-nc-muted transition-colors hover:bg-nc-raised hover:text-base-content"
                     onClick={() => handleNavigate("/admin/tools/download")}
                   >
                     <ArrowDownTrayIcon className="h-4 w-4 shrink-0" />
@@ -295,7 +295,7 @@ export default function AdminLayout() {
           </div>
         </aside>
 
-        <main className="min-w-0 min-h-0 bg-parchment-50 pt-1 lg:pt-0">
+        <main className="min-w-0 min-h-0 bg-nc-bg pt-1 lg:pt-0">
           <div className="h-full min-h-0">
             <Outlet />
           </div>

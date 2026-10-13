@@ -5,7 +5,7 @@ import { CheckCircleIcon } from "@heroicons/react/24/outline";
 import toast from "react-hot-toast";
 
 const inputClass =
-  "input input-sm h-9 w-full rounded-md border border-base-300 bg-base-100 focus:border-primary focus:outline-none";
+  "input input-sm h-9 w-full rounded-md border border-nc-border-strong bg-base-100 focus:border-primary focus:outline-none";
 
 export default function AiSettingsContent() {
   const { data, isLoading } = useAiSettings();
@@ -56,7 +56,7 @@ export default function AiSettingsContent() {
       className="space-y-4 rounded-xl border border-primary/10 bg-primary/5 p-5"
     >
       <div>
-        <label className="mb-1.5 block text-xs font-medium text-base-content/60">
+        <label className="mb-1.5 block text-xs font-medium text-nc-muted">
           API Base URL
         </label>
         <input
@@ -66,18 +66,16 @@ export default function AiSettingsContent() {
           placeholder="https://api.openai.com/v1"
           required
         />
-        <p className="mt-2 text-xs text-base-content/45">
-          兼容 OpenAI 的接口地址。
-        </p>
+        <p className="mt-2 text-xs text-nc-muted">兼容 OpenAI 的接口地址。</p>
       </div>
 
       <div>
         <div className="mb-1.5 flex items-center justify-between">
-          <label className="block text-xs font-medium text-base-content/60">
+          <label className="block text-xs font-medium text-nc-muted">
             API Key
           </label>
           {data?.ai_api_key && (
-            <span className="inline-flex items-center gap-1 text-xs text-base-content/40">
+            <span className="inline-flex items-center gap-1 text-xs text-nc-muted">
               <CheckCircleIcon className="h-3.5 w-3.5" />
               当前已配置
             </span>
@@ -90,11 +88,11 @@ export default function AiSettingsContent() {
           onChange={(e) => setApiKey(e.target.value)}
           placeholder="留空则不修改"
         />
-        <p className="mt-2 text-xs text-base-content/45">留空则不修改。</p>
+        <p className="mt-2 text-xs text-nc-muted">留空则不修改。</p>
       </div>
 
       <div>
-        <label className="mb-1.5 block text-xs font-medium text-base-content/60">
+        <label className="mb-1.5 block text-xs font-medium text-nc-muted">
           模型
         </label>
         <input
@@ -104,11 +102,11 @@ export default function AiSettingsContent() {
           placeholder="gpt-4o-mini"
           required
         />
-        <p className="mt-2 text-xs text-base-content/45">当前使用的模型。</p>
+        <p className="mt-2 text-xs text-nc-muted">当前使用的模型。</p>
       </div>
 
       <div>
-        <label className="mb-1.5 block text-xs font-medium text-base-content/60">
+        <label className="mb-1.5 block text-xs font-medium text-nc-muted">
           温度
         </label>
         <input
@@ -120,16 +118,16 @@ export default function AiSettingsContent() {
           value={temperature}
           onChange={(e) => setTemperature(e.target.value)}
         />
-        <p className="mt-2 text-xs text-base-content/45">
+        <p className="mt-2 text-xs text-nc-muted">
           值越高输出越多样化和创造性，值越低输出越确定和保守
         </p>
       </div>
 
-      <div className="rounded-lg bg-base-200/70 px-4 py-3 text-sm text-base-content/65">
+      <div className="rounded-lg bg-base-200/70 px-4 py-3 text-sm text-nc-muted">
         保存后立即生效。
       </div>
 
-      <div className="flex items-center justify-end border-t border-base-200 pt-4">
+      <div className="flex items-center justify-end border-t border-nc-border pt-4">
         <button
           type="submit"
           className="btn btn-primary btn-sm rounded-md"

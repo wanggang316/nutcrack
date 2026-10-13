@@ -1,0 +1,62 @@
+/* Nutcrack v3 palette C — 奶油鼠尾草 Cream & Sage (single source of truth).
+ * Consumed by tailwind.config.js (CSS variables + daisyUI themes).
+ * Contrast: see design v3 contrast-report.md (all text pairs ≥ 4.5:1).
+ * `scrim` is an implementation addition for modal backdrops. */
+module.exports = {
+  "light": {
+    "bg": "#FAF9F4",
+    "surface": "#FEFEFB",
+    "raised": "#F1F1E8",
+    "sunken": "#ECECE1",
+    "border": "#E2E2D7",
+    "border-strong": "#CFCFC0",
+    "text": "#24231A",
+    "muted": "#656457",
+    "subtle": "#A09F91",
+    "primary": "#4A6D51",
+    "primary-hover": "#3A5C41",
+    "primary-soft": "#E4EEE6",
+    "on-primary-soft": "#3C5F43",
+    "on-primary": "#FFFFFF",
+    "success": "#397949",
+    "warn": "#915C08",
+    "error": "#AB4238",
+    "tag-1-bg": "#FAEAE7",
+    "tag-1-text": "#7A524B",
+    "tag-2-bg": "#F4EEE1",
+    "tag-2-text": "#6C5B39",
+    "tag-3-bg": "#E6F2E8",
+    "tag-3-text": "#47674D",
+    "tag-4-bg": "#E6F0FA",
+    "tag-4-text": "#46607C",
+    "scrim": "#11120E"
+  },
+  "dark": {
+    "bg": "#171814",
+    "surface": "#1D1F1A",
+    "raised": "#262723",
+    "sunken": "#11120E",
+    "border": "#30312C",
+    "border-strong": "#42433E",
+    "text": "#E7E7E0",
+    "muted": "#A4A5A0",
+    "subtle": "#686A65",
+    "primary": "#93B599",
+    "primary-hover": "#A2C5A8",
+    "primary-soft": "#243227",
+    "on-primary-soft": "#B2D5B8",
+    "on-primary": "#171814",
+    "success": "#86B990",
+    "warn": "#CBA36D",
+    "error": "#DE958B",
+    "tag-1-bg": "#372A28",
+    "tag-1-text": "#D9B4AD",
+    "tag-2-bg": "#322D22",
+    "tag-2-text": "#CBBC9D",
+    "tag-3-bg": "#273129",
+    "tag-3-text": "#AAC6AF",
+    "tag-4-bg": "#262F38",
+    "tag-4-text": "#A8C1DA",
+    "scrim": "#11120E"
+  }
+};

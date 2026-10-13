@@ -48,11 +48,11 @@ export default function LinkEditModal({
   onSaveAndPublish,
 }: Props) {
   const inputClass =
-    "input input-sm h-9 w-full rounded-md border border-base-300 bg-base-100 focus:border-primary focus:outline-none";
+    "input input-sm h-9 w-full rounded-md border border-nc-border-strong bg-base-100 focus:border-primary focus:outline-none";
   const textareaClass =
-    "textarea min-h-[148px] w-full rounded-md border border-base-300 bg-base-100 px-3 py-2 text-sm leading-7 focus:border-primary focus:outline-none";
+    "textarea min-h-[148px] w-full rounded-md border border-nc-border-strong bg-base-100 px-3 py-2 text-sm leading-7 focus:border-primary focus:outline-none";
   const selectClass =
-    "select select-sm h-9 w-full rounded-md border border-base-300 bg-base-100 focus:border-primary focus:outline-none";
+    "select select-sm h-9 w-full rounded-md border border-nc-border-strong bg-base-100 focus:border-primary focus:outline-none";
   const [title, setTitle] = useState("");
   const [summary, setSummary] = useState("");
   const [category, setCategory] = useState("");
@@ -149,7 +149,7 @@ export default function LinkEditModal({
       return (
         <Pill
           size="sm"
-          toneClassName="text-[#8A6A00]"
+          toneClassName="text-nc-warn"
           style={{
             backgroundColor:
               "color-mix(in srgb, currentColor 12%, transparent)",
@@ -166,8 +166,8 @@ export default function LinkEditModal({
 
   return (
     <div className="modal modal-open">
-      <div className="modal-box flex max-h-[90vh] max-w-5xl flex-col overflow-hidden border border-base-300 bg-base-100 p-0 shadow-xl">
-        <div className="border-b border-base-200 px-6 py-5">
+      <div className="modal-box flex max-h-[90vh] max-w-5xl flex-col overflow-hidden border border-nc-border-strong bg-base-100 p-0 shadow-xl">
+        <div className="border-b border-nc-border px-6 py-5">
           <div className="flex items-start justify-between gap-4">
             <div className="min-w-0 space-y-3">
               <div className="flex flex-wrap items-center gap-2">
@@ -177,12 +177,12 @@ export default function LinkEditModal({
                 {renderPrimaryStatus()}
               </div>
 
-              <div className="flex flex-wrap items-center gap-x-3 gap-y-2 text-sm text-base-content/55">
+              <div className="flex flex-wrap items-center gap-x-3 gap-y-2 text-sm text-nc-muted">
                 <a
                   href={link.url}
                   target="_blank"
                   rel="noreferrer"
-                  className="break-all text-base-content/55 transition-colors hover:text-primary"
+                  className="break-all text-nc-muted transition-colors hover:text-primary"
                 >
                   {link.url}
                 </a>
@@ -190,7 +190,7 @@ export default function LinkEditModal({
             </div>
 
             <button
-              className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-base-content/45 transition-colors hover:bg-base-200 hover:text-base-content"
+              className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-nc-muted transition-colors hover:bg-base-200 hover:text-base-content"
               onClick={onClose}
               type="button"
               aria-label="关闭编辑弹窗"
@@ -201,9 +201,9 @@ export default function LinkEditModal({
         </div>
 
         <div className="grid min-h-0 flex-1 overflow-y-auto lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)]">
-          <aside className="space-y-5 border-b border-base-200 bg-base-200/[0.28] px-6 py-6 lg:border-b-0 lg:border-r">
+          <aside className="space-y-5 border-b border-nc-border bg-base-200/[0.28] px-6 py-6 lg:border-b-0 lg:border-r">
             {(hasAiSuggestion || canReanalyze) && (
-              <section className="rounded-2xl border border-base-300 bg-base-100 p-4">
+              <section className="rounded-2xl border border-nc-border-strong bg-base-100 p-4">
                 <div className="flex flex-wrap items-start justify-between gap-3">
                   <div className="inline-flex items-center gap-2 text-sm font-semibold text-base-content">
                     <SparklesIcon className="h-4 w-4 text-primary" />
@@ -212,7 +212,7 @@ export default function LinkEditModal({
 
                   {canReanalyze && (
                     <button
-                      className="btn btn-ghost btn-xs gap-1 rounded-md font-normal text-base-content/70 hover:bg-base-200 hover:text-primary"
+                      className="btn btn-ghost btn-xs gap-1 rounded-md font-normal text-nc-muted hover:bg-base-200 hover:text-primary"
                       onClick={() => {
                         onReanalyze?.();
                       }}
@@ -239,25 +239,25 @@ export default function LinkEditModal({
                   <>
                     <div className="mt-4 space-y-4">
                       <div>
-                        <div className="mb-1 text-[11px] font-medium uppercase tracking-[0.16em] text-base-content/42">
+                        <div className="mb-1 text-[11px] font-medium uppercase tracking-[0.16em] text-nc-muted">
                           标题
                         </div>
-                        <div className="text-sm leading-6 text-base-content/78">
+                        <div className="text-sm leading-6 text-nc-muted">
                           {link.ai_title || "暂无"}
                         </div>
                       </div>
 
                       <div>
-                        <div className="mb-1 text-[11px] font-medium uppercase tracking-[0.16em] text-base-content/42">
+                        <div className="mb-1 text-[11px] font-medium uppercase tracking-[0.16em] text-nc-muted">
                           摘要
                         </div>
-                        <div className="whitespace-pre-wrap text-sm leading-6 text-base-content/78">
+                        <div className="whitespace-pre-wrap text-sm leading-6 text-nc-muted">
                           {link.ai_summary || "暂无"}
                         </div>
                       </div>
 
                       <div className="space-y-2">
-                        <div className="text-[11px] font-medium uppercase tracking-[0.16em] text-base-content/42">
+                        <div className="text-[11px] font-medium uppercase tracking-[0.16em] text-nc-muted">
                           分类与标签
                         </div>
                         <div className="flex flex-wrap items-center gap-2">
@@ -281,9 +281,7 @@ export default function LinkEditModal({
                           />
                           {!link.ai_category &&
                             (!link.ai_tags || link.ai_tags.length === 0) && (
-                              <div className="text-sm text-base-content/52">
-                                暂无
-                              </div>
+                              <div className="text-sm text-nc-muted">暂无</div>
                             )}
                         </div>
                       </div>
@@ -300,7 +298,7 @@ export default function LinkEditModal({
                     </div>
                   </>
                 ) : (
-                  <div className="mt-4 rounded-xl border border-dashed border-base-300 px-3 py-4 text-sm text-base-content/52">
+                  <div className="mt-4 rounded-xl border border-dashed border-nc-border-strong px-3 py-4 text-sm text-nc-muted">
                     当前还没有可用的 AI 建议。
                   </div>
                 )}
@@ -321,16 +319,14 @@ export default function LinkEditModal({
 
           <section className="space-y-6 px-6 py-6">
             <div>
-              <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-base-content/45">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-nc-muted">
                 发布内容
               </p>
             </div>
 
             <div className="space-y-5">
               <label className="block space-y-2">
-                <span className="text-sm font-medium text-base-content/72">
-                  标题
-                </span>
+                <span className="text-sm font-medium text-nc-muted">标题</span>
                 <input
                   className={inputClass}
                   value={title}
@@ -339,9 +335,7 @@ export default function LinkEditModal({
               </label>
 
               <label className="block space-y-2">
-                <span className="text-sm font-medium text-base-content/72">
-                  摘要
-                </span>
+                <span className="text-sm font-medium text-nc-muted">摘要</span>
                 <textarea
                   className={textareaClass}
                   value={summary}
@@ -351,7 +345,7 @@ export default function LinkEditModal({
 
               <div className="grid gap-5 lg:grid-cols-2">
                 <label className="block space-y-2">
-                  <span className="text-sm font-medium text-base-content/72">
+                  <span className="text-sm font-medium text-nc-muted">
                     分类
                   </span>
                   <select
@@ -369,7 +363,7 @@ export default function LinkEditModal({
                 </label>
 
                 <label className="block space-y-2">
-                  <span className="text-sm font-medium text-base-content/72">
+                  <span className="text-sm font-medium text-nc-muted">
                     标签
                   </span>
                   <input
@@ -390,7 +384,7 @@ export default function LinkEditModal({
           </section>
         </div>
 
-        <div className="flex flex-wrap items-center justify-end gap-2 border-t border-base-200 bg-base-100 px-6 py-4">
+        <div className="flex flex-wrap items-center justify-end gap-2 border-t border-nc-border bg-base-100 px-6 py-4">
           <button
             className="btn btn-sm rounded-md"
             onClick={onClose}

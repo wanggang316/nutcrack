@@ -13,7 +13,7 @@ const linkStatusConfig: Record<
 > = {
   pending: {
     label: "待处理",
-    toneClass: "text-[#8A6A00]",
+    toneClass: "text-nc-warn",
     style: {
       backgroundColor: "color-mix(in srgb, currentColor 12%, transparent)",
       borderColor: "color-mix(in srgb, currentColor 14%, transparent)",
@@ -21,7 +21,7 @@ const linkStatusConfig: Record<
   },
   published: {
     label: "已发布",
-    toneClass: "text-[#42624E]",
+    toneClass: "text-nc-success",
     style: {
       backgroundColor: "color-mix(in srgb, currentColor 12%, transparent)",
       borderColor: "color-mix(in srgb, currentColor 14%, transparent)",
@@ -29,7 +29,7 @@ const linkStatusConfig: Record<
   },
   archived: {
     label: "已归档",
-    toneClass: "text-base-content/55",
+    toneClass: "text-nc-muted",
     style: {
       backgroundColor: "color-mix(in srgb, currentColor 9%, transparent)",
       borderColor: "color-mix(in srgb, currentColor 10%, transparent)",
@@ -37,7 +37,7 @@ const linkStatusConfig: Record<
   },
   deleted: {
     label: "已删除",
-    toneClass: "text-[#B42318]",
+    toneClass: "text-nc-error",
     style: {
       backgroundColor: "color-mix(in srgb, currentColor 10%, transparent)",
       borderColor: "color-mix(in srgb, currentColor 12%, transparent)",
@@ -51,7 +51,7 @@ const processingStatusConfig: Record<
 > = {
   queued: {
     label: "排队中",
-    toneClass: "text-base-content/50",
+    toneClass: "text-nc-muted",
     style: {
       backgroundColor: "color-mix(in srgb, currentColor 9%, transparent)",
       borderColor: "color-mix(in srgb, currentColor 10%, transparent)",
@@ -59,7 +59,7 @@ const processingStatusConfig: Record<
   },
   fetching: {
     label: "抓取中",
-    toneClass: "text-[#C99300]",
+    toneClass: "text-nc-warn",
     style: {
       backgroundColor: "color-mix(in srgb, currentColor 12%, transparent)",
       borderColor: "color-mix(in srgb, currentColor 14%, transparent)",
@@ -67,7 +67,7 @@ const processingStatusConfig: Record<
   },
   analyzing: {
     label: "分析中",
-    toneClass: "text-[#8A6A00]",
+    toneClass: "text-nc-warn",
     style: {
       backgroundColor: "color-mix(in srgb, currentColor 12%, transparent)",
       borderColor: "color-mix(in srgb, currentColor 14%, transparent)",
@@ -75,7 +75,7 @@ const processingStatusConfig: Record<
   },
   completed: {
     label: "已完成",
-    toneClass: "text-primary/85",
+    toneClass: "text-primary",
     style: {
       backgroundColor: "color-mix(in srgb, currentColor 12%, transparent)",
       borderColor: "color-mix(in srgb, currentColor 14%, transparent)",
@@ -83,7 +83,7 @@ const processingStatusConfig: Record<
   },
   failed: {
     label: "失败",
-    toneClass: "text-[#B42318]",
+    toneClass: "text-nc-error",
     style: {
       backgroundColor: "color-mix(in srgb, currentColor 10%, transparent)",
       borderColor: "color-mix(in srgb, currentColor 12%, transparent)",
@@ -97,7 +97,7 @@ const activityStatusConfig: Record<
 > = {
   success: {
     label: "成功",
-    toneClass: "text-[#42624E]",
+    toneClass: "text-nc-success",
     style: {
       backgroundColor: "color-mix(in srgb, currentColor 12%, transparent)",
       borderColor: "color-mix(in srgb, currentColor 14%, transparent)",
@@ -105,7 +105,7 @@ const activityStatusConfig: Record<
   },
   failed: {
     label: "失败",
-    toneClass: "text-[#B42318]",
+    toneClass: "text-nc-error",
     style: {
       backgroundColor: "color-mix(in srgb, currentColor 10%, transparent)",
       borderColor: "color-mix(in srgb, currentColor 12%, transparent)",
@@ -113,7 +113,7 @@ const activityStatusConfig: Record<
   },
   pending: {
     label: "待处理",
-    toneClass: "text-[#8A6A00]",
+    toneClass: "text-nc-warn",
     style: {
       backgroundColor: "color-mix(in srgb, currentColor 12%, transparent)",
       borderColor: "color-mix(in srgb, currentColor 14%, transparent)",
@@ -127,7 +127,7 @@ const tokenStatusConfig: Record<
 > = {
   active: {
     label: "启用",
-    toneClass: "text-[#42624E]",
+    toneClass: "text-nc-success",
     style: {
       backgroundColor: "color-mix(in srgb, currentColor 12%, transparent)",
       borderColor: "color-mix(in srgb, currentColor 14%, transparent)",
@@ -135,7 +135,7 @@ const tokenStatusConfig: Record<
   },
   disabled: {
     label: "禁用",
-    toneClass: "text-[#8A6A00]",
+    toneClass: "text-nc-warn",
     style: {
       backgroundColor: "color-mix(in srgb, currentColor 12%, transparent)",
       borderColor: "color-mix(in srgb, currentColor 14%, transparent)",
@@ -143,7 +143,7 @@ const tokenStatusConfig: Record<
   },
   expired: {
     label: "过期",
-    toneClass: "text-[#B42318]",
+    toneClass: "text-nc-error",
     style: {
       backgroundColor: "color-mix(in srgb, currentColor 10%, transparent)",
       borderColor: "color-mix(in srgb, currentColor 12%, transparent)",

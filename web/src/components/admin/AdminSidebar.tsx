@@ -28,7 +28,7 @@ export default function AdminSidebar({
       <div>
         {navGroups.map((group) => (
           <div key={group.group} className="mb-6">
-            <p className="mb-2 px-3 font-mono text-[11px] uppercase tracking-[0.18em] text-base-content/40">
+            <p className="mb-2 px-3 font-mono text-[11px] uppercase tracking-[0.18em] text-nc-muted">
               {group.group}
             </p>
             <ul className="space-y-1">
@@ -41,8 +41,8 @@ export default function AdminSidebar({
                     className={({ isActive }) =>
                       `relative flex items-center gap-3 rounded-2xl px-3 py-2.5 text-sm font-medium transition-all before:absolute before:left-1.5 before:top-1/2 before:h-5 before:w-0.5 before:-translate-y-1/2 before:rounded-full before:opacity-0 before:transition-opacity ${
                         isActive
-                          ? "bg-white text-base-content shadow-[0_1px_2px_rgba(16,24,40,0.04)] before:bg-ember-500 before:opacity-100"
-                          : "text-base-content/58 hover:bg-white/80 hover:text-base-content"
+                          ? "bg-nc-surface text-base-content shadow-[0_1px_2px_color-mix(in_srgb,var(--nc-scrim)_4%,transparent)] before:bg-nc-primary before:opacity-100"
+                          : "text-nc-muted hover:bg-nc-surface/80 hover:text-base-content"
                       }`
                     }
                   >

@@ -88,7 +88,7 @@ export default function AdminProcessFlow({
             </div>
             <div className="space-y-1">
               <div className="text-sm font-medium text-error">处理失败</div>
-              <div className="text-sm text-base-content/62">
+              <div className="text-sm text-nc-muted">
                 {errorMessage || "链接无法处理，请检查地址后重新提交。"}
               </div>
             </div>
@@ -113,7 +113,7 @@ export default function AdminProcessFlow({
                 <div key={`${stage.key}-stage`} className="contents">
                   <div
                     className={`flex min-w-[5rem] flex-col items-center justify-center transition-colors duration-200 ${
-                      isCompleteTone ? "text-primary" : "text-base-content/35"
+                      isCompleteTone ? "text-primary" : "text-nc-muted"
                     }`}
                     style={{ gridColumnStart: columnStart, gridRowStart: 1 }}
                   >
@@ -126,7 +126,7 @@ export default function AdminProcessFlow({
 
                   <div
                     className={`text-sm font-medium transition-colors duration-200 ${
-                      isCompleteTone ? "text-primary" : "text-base-content/52"
+                      isCompleteTone ? "text-primary" : "text-nc-muted"
                     }`}
                     style={{ gridColumnStart: columnStart, gridRowStart: 2 }}
                   >
@@ -162,7 +162,7 @@ export default function AdminProcessFlow({
             })}
           </div>
 
-          <div className="mt-12 text-center text-base font-medium text-base-content/72">
+          <div className="mt-12 text-center text-base font-medium text-nc-muted">
             {statusText}
           </div>
 

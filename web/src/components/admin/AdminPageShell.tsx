@@ -10,7 +10,7 @@ const shellClassName =
   "min-h-[calc(100dvh-4.5rem)] overflow-hidden lg:h-[calc(100vh-0.75rem)] lg:min-h-0";
 
 const surfaceClassName =
-  "h-full min-h-0 overflow-y-auto rounded-2xl border border-black/5 bg-white p-4 shadow-[0_1px_2px_rgba(16,24,40,0.03)]";
+  "h-full min-h-0 overflow-y-auto rounded-2xl border border-nc-border bg-nc-surface p-4 shadow-[0_1px_2px_color-mix(in_srgb,var(--nc-scrim)_3%,transparent)]";
 
 export default function AdminPageShell({
   children,

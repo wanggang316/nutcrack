@@ -89,7 +89,7 @@ export default function AdminLinkCard({
         <Pill
           size="sm"
           className="shrink-0"
-          toneClassName="text-[#8A6A00]"
+          toneClassName="text-nc-warn"
           style={{
             backgroundColor:
               "color-mix(in srgb, currentColor 12%, transparent)",
@@ -118,7 +118,7 @@ export default function AdminLinkCard({
   };
 
   return (
-    <article className="group border-b border-parchment-200 py-4 last:border-0">
+    <article className="group border-b border-nc-border py-4 last:border-0">
       <div className="space-y-2">
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0 flex-1 space-y-1.5">
@@ -133,7 +133,7 @@ export default function AdminLinkCard({
               </a>
             </h3>
 
-            <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1 font-mono text-[11px] uppercase tracking-wide text-base-content/40">
+            <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1 font-mono text-[11px] uppercase tracking-wide text-nc-muted">
               <span className="break-all normal-case">{getDomain()}</span>
               {link.created_at && (
                 <span className="whitespace-nowrap">
@@ -154,7 +154,7 @@ export default function AdminLinkCard({
                 href={link.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-0.5 inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-md text-base-content/35 opacity-0 transition-all hover:bg-base-200 hover:text-base-content/70 group-hover:opacity-100 focus-visible:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/20"
+                className="mt-0.5 inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-md text-nc-muted opacity-0 transition-all hover:bg-base-200 hover:text-nc-muted group-hover:opacity-100 focus-visible:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/20"
                 title="访问"
               >
                 <ArrowTopRightOnSquareIcon className="h-4 w-4" />
@@ -174,7 +174,7 @@ export default function AdminLinkCard({
 
         {getSummary() && (
           <div className="rounded-lg bg-base-200/70 px-3 py-3">
-            <p className="break-words text-sm leading-[1.65] text-base-content/70">
+            <p className="break-words text-sm leading-[1.65] text-nc-muted">
               {getSummary()}
             </p>
           </div>

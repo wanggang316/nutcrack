@@ -12,6 +12,8 @@ import { publicApi } from "../../utils/api";
 import { CategorySidebar } from "../../components/CategoryList";
 import { LinkCard, TagList } from "../../components/home";
 import { SimplePagination } from "../../components/Pagination";
+import { BirdMark } from "../../components/Logo";
+import ThemeToggle from "../../components/ThemeToggle";
 
 function parsePage(raw: string | null): number {
   if (!raw) return 1;
@@ -52,10 +54,7 @@ function groupByMonth(items: PublicLink[]): MonthGroup[] {
 
 function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
-    <p className="mb-2.5 flex items-center gap-1.5 px-2.5 font-mono text-[11px] uppercase tracking-[0.18em] text-ink/40">
-      <span className="h-1 w-1 rounded-full bg-ember-500" aria-hidden="true" />
-      {children}
-    </p>
+    <p className="mb-2 px-2.5 text-xs font-medium text-nc-muted">{children}</p>
   );
 }
 
@@ -72,13 +71,16 @@ function SearchField({
 }) {
   return (
     <div
-      className={`group flex items-center gap-2 rounded-full border border-parchment-200 bg-white/70 px-3.5 py-1.5 transition-colors duration-150 focus-within:border-teal-400 focus-within:bg-white ${className}`}
+      className={`group flex items-center gap-2 rounded-lg border border-nc-border bg-nc-surface px-3 py-1.5 transition-colors duration-150 focus-within:border-nc-primary ${className}`}
     >
-      <MagnifyingGlassIcon className="h-4 w-4 shrink-0 text-ink/40 transition-colors group-focus-within:text-teal-600" />
+      <MagnifyingGlassIcon className="h-4 w-4 shrink-0 text-nc-muted transition-colors group-focus-within:text-nc-primary" />
       <input
         ref={inputRef}
         type="search"
-        className="w-full bg-transparent text-sm text-ink placeholder:text-ink/35 focus:outline-none [&::-webkit-search-cancel-button]:appearance-none"
+        name="q"
+        aria-label="搜索链接"
+        autoComplete="off"
+        className="w-full bg-transparent text-sm text-nc-text placeholder:text-nc-muted focus:outline-none [&::-webkit-search-cancel-button]:appearance-none"
         placeholder="搜索标题、标签、描述…"
         value={value}
         onChange={(e) => onChange(e.target.value)}
@@ -95,12 +97,12 @@ function FilterPill({
   onRemove: () => void;
 }) {
   return (
-    <span className="inline-flex items-center gap-1 rounded-full bg-teal-600 py-0.5 pl-2.5 pr-1.5 text-xs text-white">
+    <span className="inline-flex items-center gap-1 rounded-full bg-nc-primary-soft py-0.5 pl-2.5 pr-1.5 text-xs text-nc-on-primary-soft">
       {children}
       <button
         onClick={onRemove}
         aria-label="移除筛选"
-        className="grid h-4 w-4 place-items-center rounded-full text-white/70 transition-colors hover:bg-white/20 hover:text-white"
+        className="grid h-4 w-4 place-items-center rounded-full text-nc-on-primary-soft transition-colors hover:bg-nc-raised"
       >
         <XMarkIcon className="h-3 w-3" />
       </button>
@@ -110,11 +112,11 @@ function FilterPill({
 
 function MonthHeading({ group }: { group: MonthGroup }) {
   return (
-    <div className="mb-4 flex items-baseline justify-between gap-4 border-b border-parchment-200 pb-2.5">
-      <h2 className="font-display text-2xl font-medium leading-none tracking-tight text-ink">
+    <div className="mb-1 flex items-baseline gap-2.5">
+      <h2 className="font-display text-2xl font-medium leading-none tracking-tight text-nc-text">
         {group.title}
       </h2>
-      <span className="shrink-0 font-mono text-xs tabular-nums text-ink/45">
+      <span className="shrink-0 text-xs tabular-nums text-nc-muted">
         {group.links.length} 篇
       </span>
     </div>
@@ -255,14 +257,10 @@ export default function List() {
   return (
     <div className="min-h-[100dvh]">
       {/* Masthead */}
-      <header className="sticky top-0 z-30 border-b border-parchment-200 bg-parchment-50/85 backdrop-blur">
-        <div
-          className="h-[3px] w-full bg-gradient-to-r from-ember-500 via-teal-500 to-teal-600"
-          aria-hidden="true"
-        />
+      <header className="sticky top-0 z-30 border-b border-nc-border bg-nc-bg/90 backdrop-blur">
         <div className="mx-auto flex max-w-6xl items-center gap-3 px-4 py-3.5 lg:px-6">
           <button
-            className="grid h-9 w-9 place-items-center rounded-lg text-ink/60 transition-colors hover:bg-white hover:text-ink lg:hidden"
+            className="grid h-9 w-9 place-items-center rounded-lg text-nc-muted transition-colors hover:bg-nc-surface hover:text-nc-text lg:hidden"
             onClick={() => setIsMobileSidebarOpen((open) => !open)}
             aria-label="切换侧边栏"
           >
@@ -274,26 +272,14 @@ export default function List() {
           </button>
 
           <a href="/" className="flex min-w-0 items-center gap-2.5">
-            <img
-              src="/logo.png"
-              width={30}
-              height={30}
-              alt="Nutcrack"
-              loading="eager"
-              decoding="async"
-              className="shrink-0"
-              style={{ width: 30, height: 30 }}
-            />
-            <span className="font-display text-xl font-semibold tracking-tight text-ink">
+            <BirdMark size={30} />
+            <span className="font-display text-xl font-semibold tracking-tight text-nc-text">
               Nutcrack
             </span>
           </a>
 
           <div className="ml-auto flex items-center gap-2">
-            <form
-              onSubmit={handleSearchSubmit}
-              className="hidden lg:block"
-            >
+            <form onSubmit={handleSearchSubmit} className="hidden lg:block">
               <SearchField
                 value={searchInput}
                 onChange={setSearchInput}
@@ -303,7 +289,7 @@ export default function List() {
 
             <button
               type="button"
-              className="grid h-9 w-9 place-items-center rounded-lg text-ink/60 transition-colors hover:bg-white hover:text-ink lg:hidden"
+              className="grid h-9 w-9 place-items-center rounded-lg text-nc-muted transition-colors hover:bg-nc-surface hover:text-nc-text lg:hidden"
               onClick={() => setIsMobileSearchOpen((open) => !open)}
               aria-label="搜索"
             >
@@ -313,11 +299,12 @@ export default function List() {
                 <MagnifyingGlassIcon className="h-5 w-5" />
               )}
             </button>
+            <ThemeToggle />
           </div>
         </div>
 
         {isMobileSearchOpen && (
-          <div className="border-t border-parchment-200 px-4 py-2.5 lg:hidden">
+          <div className="border-t border-nc-border px-4 py-2.5 lg:hidden">
             <form onSubmit={handleSearchSubmit}>
               <SearchField
                 value={searchInput}
@@ -334,17 +321,17 @@ export default function List() {
         <div className="fixed inset-0 z-40 flex lg:hidden">
           <button
             type="button"
-            className="fixed inset-0 cursor-default bg-ink/40 backdrop-blur-sm"
+            className="fixed inset-0 cursor-default bg-nc-scrim/40 backdrop-blur-sm"
             onClick={() => setIsMobileSidebarOpen(false)}
             aria-label="关闭侧边栏"
           />
-          <aside className="relative h-full w-72 max-w-[85vw] overflow-y-auto border-r border-parchment-200 bg-parchment-50 p-4">
+          <aside className="relative h-full w-72 max-w-[85vw] overflow-y-auto border-r border-nc-border bg-nc-bg p-4">
             <div className="mb-5 flex items-center justify-between">
-              <span className="font-display text-base font-semibold text-ink">
+              <span className="font-display text-base font-semibold text-nc-text">
                 筛选
               </span>
               <button
-                className="grid h-8 w-8 place-items-center rounded-lg text-ink/50 transition-colors hover:bg-white hover:text-ink"
+                className="grid h-8 w-8 place-items-center rounded-lg text-nc-muted transition-colors hover:bg-nc-surface hover:text-nc-text"
                 onClick={() => setIsMobileSidebarOpen(false)}
                 aria-label="关闭"
               >
@@ -380,10 +367,10 @@ export default function List() {
           </div>
         </aside>
 
-        <main className="min-w-0 flex-1">
+        <main className="min-w-0 max-w-[720px] flex-1">
           {hasFilter && (
             <div className="mb-7 flex flex-wrap items-center gap-2">
-              <span className="font-mono text-[11px] uppercase tracking-wider text-ink/40">
+              <span className="font-mono text-[11px] uppercase tracking-wider text-nc-muted">
                 筛选
               </span>
               {category && (
@@ -396,12 +383,10 @@ export default function List() {
                   #{tag}
                 </FilterPill>
               ))}
-              {q && (
-                <FilterPill onRemove={handleClearSearch}>“{q}”</FilterPill>
-              )}
+              {q && <FilterPill onRemove={handleClearSearch}>“{q}”</FilterPill>}
               <button
                 onClick={handleClearAll}
-                className="ml-1 text-xs text-ink/45 underline-offset-4 transition-colors hover:text-teal-700 hover:underline"
+                className="ml-1 text-xs text-nc-muted underline-offset-4 transition-colors hover:text-nc-on-primary-soft hover:underline"
               >
                 清除全部
               </button>
@@ -413,7 +398,7 @@ export default function List() {
               {Array.from({ length: 6 }).map((_, i) => (
                 <div
                   key={i}
-                  className="grid grid-cols-[1.5rem_minmax(0,1fr)] gap-x-3 border-b border-parchment-200 py-5"
+                  className="grid grid-cols-[1.5rem_minmax(0,1fr)] gap-x-3 border-b border-nc-border py-5"
                 >
                   <div className="skeleton-line mt-1 h-3 w-4" />
                   <div className="space-y-2.5">
@@ -427,13 +412,13 @@ export default function List() {
             </div>
           ) : items.length === 0 ? (
             <div className="animate-fade-up py-20 text-center">
-              <div className="mx-auto mb-4 grid h-14 w-14 place-items-center rounded-2xl bg-teal-50 text-teal-600">
+              <div className="mx-auto mb-4 grid h-14 w-14 place-items-center rounded-2xl bg-nc-primary-soft text-nc-primary">
                 <InboxIcon className="h-7 w-7" />
               </div>
-              <p className="font-display text-lg text-ink">
+              <p className="font-display text-lg text-nc-text">
                 {hasFilter ? "没有符合条件的链接" : "还没有已发布的链接"}
               </p>
-              <p className="mx-auto mt-2 max-w-xs text-sm leading-relaxed text-ink/45">
+              <p className="mx-auto mt-2 max-w-xs text-sm leading-relaxed text-nc-muted">
                 {hasFilter
                   ? "试试调整或清除筛选条件，换个角度看看。"
                   : "添加链接并完成 AI 处理后，这里会展示最新公开内容。"}
@@ -441,7 +426,7 @@ export default function List() {
               {hasFilter && (
                 <button
                   onClick={handleClearAll}
-                  className="mt-5 inline-flex items-center rounded-full bg-teal-600 px-4 py-1.5 text-sm font-medium text-white transition-colors hover:bg-teal-700"
+                  className="mt-5 inline-flex items-center rounded-full bg-nc-primary px-4 py-1.5 text-sm font-medium text-nc-on-primary transition-colors hover:bg-nc-primary-hover"
                 >
                   清除筛选
                 </button>

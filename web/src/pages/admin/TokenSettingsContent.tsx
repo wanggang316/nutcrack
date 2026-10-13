@@ -27,14 +27,14 @@ const tokenPillStyles = {
     },
   },
   disabled: {
-    toneClassName: "text-[#B42318]",
+    toneClassName: "text-nc-error",
     style: {
       backgroundColor: "color-mix(in srgb, currentColor 10%, transparent)",
       borderColor: "color-mix(in srgb, currentColor 12%, transparent)",
     },
   },
   expired: {
-    toneClassName: "text-[#B42318]",
+    toneClassName: "text-nc-error",
     style: {
       backgroundColor: "color-mix(in srgb, currentColor 10%, transparent)",
       borderColor: "color-mix(in srgb, currentColor 12%, transparent)",
@@ -103,7 +103,7 @@ export default function TokenSettingsContent() {
           className="mt-5 flex flex-col gap-3 sm:flex-row"
         >
           <input
-            className="input input-sm h-9 flex-1 rounded-md border border-base-300 bg-base-100 focus:border-primary focus:outline-none"
+            className="input input-sm h-9 flex-1 rounded-md border border-nc-border-strong bg-base-100 focus:border-primary focus:outline-none"
             placeholder="Token 名称，建议用清晰名称区分用途，如 CLI、Chrome 等"
             value={name}
             onChange={(e) => setName(e.target.value)}
@@ -126,9 +126,7 @@ export default function TokenSettingsContent() {
               <p className="text-sm font-semibold text-base-content">
                 请立即复制此 Token
               </p>
-              <p className="text-sm text-base-content/65">
-                关闭后无法再次查看。
-              </p>
+              <p className="text-sm text-nc-muted">关闭后无法再次查看。</p>
             </div>
             <div className="flex shrink-0 gap-2">
               <button
@@ -152,16 +150,16 @@ export default function TokenSettingsContent() {
             </div>
           </div>
 
-          <code className="mt-4 block break-all rounded-lg bg-base-100 px-4 py-4 text-xs leading-6 text-base-content/75">
+          <code className="mt-4 block break-all rounded-lg bg-base-100 px-4 py-4 text-xs leading-6 text-nc-muted">
             {newToken}
           </code>
         </section>
       )}
 
-      <section className="rounded-xl border border-base-200 bg-base-100 p-5">
+      <section className="rounded-xl border border-nc-border bg-base-100 p-5">
         <div className="mb-5 flex items-center justify-between">
           <p className="text-sm font-semibold text-base-content">Token 列表</p>
-          <div className="rounded-full bg-base-200 px-3 py-1 text-xs text-base-content/55">
+          <div className="rounded-full bg-base-200 px-3 py-1 text-xs text-nc-muted">
             {data?.items.length ?? 0} 项
           </div>
         </div>
@@ -171,7 +169,7 @@ export default function TokenSettingsContent() {
             <span className="loading loading-spinner loading-lg" />
           </div>
         ) : data?.items.length === 0 ? (
-          <div className="rounded-lg bg-base-200/60 px-6 py-16 text-center text-sm text-base-content/45">
+          <div className="rounded-lg bg-base-200/60 px-6 py-16 text-center text-sm text-nc-muted">
             还没有 Token。
           </div>
         ) : (
@@ -182,13 +180,13 @@ export default function TokenSettingsContent() {
             ].map((group) =>
               group.items.length > 0 ? (
                 <div key={group.title} className="space-y-3">
-                  <p className="text-xs font-semibold uppercase tracking-widest text-base-content/40">
+                  <p className="text-xs font-semibold uppercase tracking-widest text-nc-muted">
                     {group.title}
                   </p>
                   {group.items.map((token) => (
                     <div
                       key={token.id}
-                      className="flex items-center gap-4 rounded-xl border border-base-200 bg-base-100 px-4 py-4 transition-colors hover:bg-base-200/50"
+                      className="flex items-center gap-4 rounded-xl border border-nc-border bg-base-100 px-4 py-4 transition-colors hover:bg-base-200/50"
                     >
                       <div className="min-w-0 flex-1">
                         <div className="flex items-center gap-2">
@@ -209,7 +207,7 @@ export default function TokenSettingsContent() {
                                 : "过期"}
                           </Pill>
                         </div>
-                        <div className="mt-1 flex flex-wrap items-center gap-3 text-xs text-base-content/40">
+                        <div className="mt-1 flex flex-wrap items-center gap-3 text-xs text-nc-muted">
                           <code>{token.prefix}****</code>
                           <span>使用 {token.usage_count} 次</span>
                           <span>{formatDateOnly(token.created_at)}</span>

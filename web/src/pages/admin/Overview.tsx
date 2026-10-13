@@ -25,61 +25,61 @@ const statusItems = [
     key: "total_links",
     label: "链接总数",
     icon: LinkIcon,
-    iconColor: "#0369a1",
-    baseBackground: "#eef7ff",
-    hoverBackground: "#e4f1ff",
-    borderColor: "#cfe5fb",
-    hoverBorderColor: "#bddaf7",
+    iconColor: "var(--nc-tag-4-text)",
+    baseBackground: "var(--nc-tag-4-bg)",
+    hoverBackground: "var(--nc-raised)",
+    borderColor: "var(--nc-border)",
+    hoverBorderColor: "var(--nc-border-strong)",
   },
   {
     key: "pending_links",
     label: "待处理",
     icon: ClockIcon,
-    iconColor: "#007acc",
-    baseBackground: "#edf7ff",
-    hoverBackground: "#e0efff",
-    borderColor: "#c3e3ff",
-    hoverBorderColor: "#a9d5fb",
+    iconColor: "var(--nc-tag-4-text)",
+    baseBackground: "var(--nc-tag-4-bg)",
+    hoverBackground: "var(--nc-raised)",
+    borderColor: "var(--nc-border)",
+    hoverBorderColor: "var(--nc-border-strong)",
   },
   {
     key: "this_week_count",
     label: "本周新增",
     icon: CalendarDaysIcon,
-    iconColor: "#047857",
-    baseBackground: "#effaf3",
-    hoverBackground: "#e4f7ea",
-    borderColor: "#cfead9",
-    hoverBorderColor: "#b8dfc6",
+    iconColor: "var(--nc-tag-3-text)",
+    baseBackground: "var(--nc-tag-3-bg)",
+    hoverBackground: "var(--nc-raised)",
+    borderColor: "var(--nc-border)",
+    hoverBorderColor: "var(--nc-border-strong)",
   },
   {
     key: "this_month_count",
     label: "本月新增",
     icon: CalendarDaysIcon,
-    iconColor: "#6d28d9",
-    baseBackground: "#f5f1ff",
-    hoverBackground: "#ece6ff",
-    borderColor: "#ddd2fb",
-    hoverBorderColor: "#cfbef8",
+    iconColor: "var(--nc-on-primary-soft)",
+    baseBackground: "var(--nc-primary-soft)",
+    hoverBackground: "var(--nc-raised)",
+    borderColor: "var(--nc-border)",
+    hoverBorderColor: "var(--nc-border-strong)",
   },
   {
     key: "category_count",
     label: "分类",
     icon: FolderIcon,
-    iconColor: "#b45309",
-    baseBackground: "#fff8ef",
-    hoverBackground: "#fff0d8",
-    borderColor: "#f3dec1",
-    hoverBorderColor: "#eccb99",
+    iconColor: "var(--nc-tag-2-text)",
+    baseBackground: "var(--nc-tag-2-bg)",
+    hoverBackground: "var(--nc-raised)",
+    borderColor: "var(--nc-border)",
+    hoverBorderColor: "var(--nc-border-strong)",
   },
   {
     key: "tag_count",
     label: "标签",
     icon: TagIcon,
-    iconColor: "#be123c",
-    baseBackground: "#fff1f4",
-    hoverBackground: "#ffe7ec",
-    borderColor: "#ffd7df",
-    hoverBorderColor: "#ffc0ce",
+    iconColor: "var(--nc-tag-1-text)",
+    baseBackground: "var(--nc-tag-1-bg)",
+    hoverBackground: "var(--nc-raised)",
+    borderColor: "var(--nc-border)",
+    hoverBorderColor: "var(--nc-border-strong)",
   },
 ] as const;
 
@@ -130,7 +130,7 @@ export default function Overview() {
             {statusItems.map((item) => (
               <div
                 key={item.key}
-                className="group rounded-lg border px-4 py-4 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_10px_30px_-24px_rgba(15,23,42,0.18)] motion-reduce:transform-none"
+                className="group rounded-lg border px-4 py-4 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_10px_30px_-24px_color-mix(in_srgb,var(--nc-scrim)_18%,transparent)] motion-reduce:transform-none"
                 style={
                   {
                     backgroundColor: item.baseBackground,
@@ -153,7 +153,7 @@ export default function Overview() {
                   >
                     <item.icon className="h-5 w-5" />
                   </span>
-                  <div className="min-w-0 text-sm font-normal leading-none tracking-normal text-base-content/50">
+                  <div className="min-w-0 text-sm font-normal leading-none tracking-normal text-nc-muted">
                     {item.label}
                   </div>
                 </div>
@@ -166,7 +166,7 @@ export default function Overview() {
         </section>
 
         {isEmpty ? (
-          <section className="rounded-xl border border-base-200 bg-base-100 px-5 py-5">
+          <section className="rounded-xl border border-nc-border bg-base-100 px-5 py-5">
             <div className="flex items-center gap-2 text-sm font-semibold text-base-content">
               <Bars3BottomLeftIcon className="h-4 w-4 text-primary" />
               开始使用
@@ -179,18 +179,18 @@ export default function Overview() {
                   href={item.href}
                   className="group flex items-center gap-4 rounded-lg px-3 py-4 transition-colors hover:bg-base-200/70"
                 >
-                  <span className="w-10 shrink-0 text-center text-3xl font-bold leading-none tabular-nums text-base-content/10 transition-colors group-hover:text-primary/20">
+                  <span className="w-10 shrink-0 text-center text-3xl font-bold leading-none tabular-nums text-nc-muted transition-colors group-hover:text-primary">
                     {item.step}
                   </span>
                   <div className="min-w-0 flex-1">
                     <p className="text-sm font-semibold text-base-content transition-colors group-hover:text-primary">
                       {item.title}
                     </p>
-                    <p className="mt-0.5 text-sm leading-6 text-base-content/48">
+                    <p className="mt-0.5 text-sm leading-6 text-nc-muted">
                       {item.description}
                     </p>
                   </div>
-                  <item.icon className="h-4 w-4 shrink-0 text-base-content/28 transition-colors group-hover:text-primary" />
+                  <item.icon className="h-4 w-4 shrink-0 text-nc-muted transition-colors group-hover:text-primary" />
                 </a>
               ))}
             </div>
@@ -204,7 +204,7 @@ export default function Overview() {
 
             <div className="mt-4">
               {data?.recent_activities.length === 0 ? (
-                <div className="rounded-lg border border-dashed border-base-200 px-4 py-8 text-center text-sm text-base-content/42">
+                <div className="rounded-lg border border-dashed border-nc-border px-4 py-8 text-center text-sm text-nc-muted">
                   暂无活动记录
                 </div>
               ) : (

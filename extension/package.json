@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
     "check": "tsc --noEmit",
-    "fmt": "prettier --write \"src/**/*.{ts,tsx,css}\""
+    "fmt": "prettier --write \"src/**/*.{ts,tsx,css}\"",
+    "fmt:check": "prettier --check \"src/**/*.{ts,tsx,css}\""
   },
   "dependencies": {
     "react": "^18.3.0",

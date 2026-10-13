@@ -27,7 +27,7 @@ function renderInlineMarkdown(text: string) {
           <img
             src={match[3]}
             alt={match[2]}
-            className="my-3 max-h-96 rounded-lg border border-base-300"
+            className="my-3 max-h-96 rounded-lg border border-nc-border-strong"
           />
         </a>,
       );
@@ -37,7 +37,7 @@ function renderInlineMarkdown(text: string) {
           key={`${match.index}-image`}
           src={match[6]}
           alt={match[5]}
-          className="my-3 max-h-96 rounded-lg border border-base-300"
+          className="my-3 max-h-96 rounded-lg border border-nc-border-strong"
         />,
       );
     } else if (match[7] && match[8]) {
@@ -87,7 +87,7 @@ function renderHtmlBlock(html: string, key: string) {
   return (
     <div
       key={key}
-      className="overflow-auto rounded-lg border border-base-300 bg-base-100/70 p-3"
+      className="overflow-auto rounded-lg border border-nc-border-strong bg-base-100/70 p-3"
       dangerouslySetInnerHTML={{ __html: html }}
     />
   );
@@ -150,7 +150,7 @@ export default function MarkdownPreview({
   const flushParagraph = () => {
     if (paragraphLines.length === 0) return;
     blocks.push(
-      <p key={`p-${blocks.length}`} className="leading-7 text-base-content/85">
+      <p key={`p-${blocks.length}`} className="leading-7 text-nc-muted">
         {renderInlineMarkdown(paragraphLines.join(" "))}
       </p>,
     );
@@ -176,7 +176,7 @@ export default function MarkdownPreview({
     blocks.push(
       <blockquote
         key={`quote-${blocks.length}`}
-        className="border-l-4 border-base-300 pl-4 italic text-base-content/70"
+        className="border-l-4 border-nc-border-strong pl-4 italic text-nc-muted"
       >
         {quoteLines.map((line, index) => (
           <p key={index} className="leading-7">
@@ -194,7 +194,7 @@ export default function MarkdownPreview({
     blocks.push(
       <div
         key={`code-${blocks.length}`}
-        className="overflow-auto rounded-2xl border border-parchment-200 bg-parchment-50 px-3 py-3"
+        className="overflow-auto rounded-2xl border border-nc-border bg-nc-bg px-3 py-3"
       >
         {pendingCodeTitle ? (
           <div className="mb-4 flex items-center justify-between">
@@ -203,7 +203,7 @@ export default function MarkdownPreview({
             </div>
           </div>
         ) : null}
-        <div className="min-w-max font-mono text-[13px] leading-6 text-ink">
+        <div className="min-w-max font-mono text-[13px] leading-6 text-nc-text">
           {rows.map((line, index) => (
             <div key={index}>
               <code className="whitespace-pre-wrap break-words">
@@ -231,7 +231,7 @@ export default function MarkdownPreview({
     blocks.push(
       <div
         key={`table-${blocks.length}`}
-        className="overflow-auto rounded-xl border border-base-300 bg-base-100/70"
+        className="overflow-auto rounded-xl border border-nc-border-strong bg-base-100/70"
       >
         <table className="min-w-full border-collapse text-left text-sm">
           <thead className="bg-base-200/70">
@@ -239,7 +239,7 @@ export default function MarkdownPreview({
               {table.headers.map((header, index) => (
                 <th
                   key={index}
-                  className="border-b border-base-300 px-3 py-2 font-medium text-base-content/80"
+                  className="border-b border-nc-border-strong px-3 py-2 font-medium text-nc-muted"
                   style={{ textAlign: table.aligns[index] }}
                 >
                   {renderInlineMarkdown(header)}
@@ -256,7 +256,7 @@ export default function MarkdownPreview({
                 {table.headers.map((_, cellIndex) => (
                   <td
                     key={cellIndex}
-                    className="border-t border-base-300 px-3 py-2 align-top text-base-content/80"
+                    className="border-t border-nc-border-strong px-3 py-2 align-top text-nc-muted"
                     style={{ textAlign: table.aligns[cellIndex] }}
                   >
                     {renderInlineMarkdown(row[cellIndex] || "")}

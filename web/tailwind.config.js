@@ -1,33 +1,98 @@
 /** @type {import('tailwindcss').Config} */
+const tokens = require('./theme/tokens.cjs');
+
+const tok = (name) =>
+  `color-mix(in srgb, var(--nc-${name}) calc(<alpha-value> * 100%), transparent)`;
+
+const toVars = (t) =>
+  Object.fromEntries(Object.entries(t).map(([k, v]) => [`--nc-${k}`, v]));
+
+const daisyTheme = (t) => ({
+  primary: t.primary,
+  'primary-content': t['on-primary'],
+  secondary: t['primary-hover'],
+  'secondary-content': t['on-primary'],
+  accent: t.primary,
+  'accent-content': t['on-primary'],
+  neutral: t.text,
+  'neutral-content': t.bg,
+  'base-100': t.surface,
+  'base-200': t.bg,
+  'base-300': t.raised,
+  'base-content': t.text,
+  info: t['tag-4-text'],
+  'info-content': t.surface,
+  success: t.success,
+  'success-content': t.surface,
+  warning: t.warn,
+  'warning-content': t.surface,
+  error: t.error,
+  'error-content': t.surface,
+  '--rounded-box': '0.75rem',
+  '--rounded-btn': '0.5rem',
+  '--rounded-badge': '0.375rem',
+});
+
 export default {
+  darkMode: ['selector', '[data-theme="dark"]'],
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
       colors: {
-        // Logo-derived palette.
-        ink: '#0F2A3D',        // deep navy-teal — outlines / body text
+        // Every colour routes through the v3 palette C tokens (theme/tokens.cjs
+        // → --nc-* CSS variables). color-mix keeps `/opacity` modifiers working.
+        nc: {
+          bg: tok('bg'),
+          surface: tok('surface'),
+          raised: tok('raised'),
+          sunken: tok('sunken'),
+          border: tok('border'),
+          'border-strong': tok('border-strong'),
+          text: tok('text'),
+          muted: tok('muted'),
+          subtle: tok('subtle'),
+          primary: tok('primary'),
+          'primary-hover': tok('primary-hover'),
+          'primary-soft': tok('primary-soft'),
+          'on-primary-soft': tok('on-primary-soft'),
+          'on-primary': tok('on-primary'),
+          success: tok('success'),
+          warn: tok('warn'),
+          error: tok('error'),
+          scrim: tok('scrim'),
+          'tag-1-bg': tok('tag-1-bg'),
+          'tag-1-text': tok('tag-1-text'),
+          'tag-2-bg': tok('tag-2-bg'),
+          'tag-2-text': tok('tag-2-text'),
+          'tag-3-bg': tok('tag-3-bg'),
+          'tag-3-text': tok('tag-3-text'),
+          'tag-4-bg': tok('tag-4-bg'),
+          'tag-4-text': tok('tag-4-text'),
+        },
+        // Legacy names kept as aliases so the existing system extends
+        // rather than breaks; all of them now resolve to tokens.
+        ink: tok('text'),
         teal: {
-          50: '#ECF7F4',
-          100: '#D0EBE6',
-          400: '#2BA3A0',
-          500: '#1F8A86',
-          600: '#0F766E',      // primary: bird body
-          700: '#0E5F58',
+          50: tok('primary-soft'),
+          100: tok('primary-soft'),
+          400: tok('primary'),
+          500: tok('primary'),
+          600: tok('primary'),
+          700: tok('on-primary-soft'),
         },
         ember: {
-          400: '#F08A4A',
-          500: '#EA580C',      // accent: wings / nut
-          600: '#C2410C',
+          400: tok('primary'),
+          500: tok('primary'),
+          600: tok('primary-hover'),
         },
-        // Page surface — same hue as the logo's hexagonal backplate
-        // (#D5DFDF) but pushed lighter so it reads as soft paper rather
-        // than a heavy panel.
         parchment: {
-          50: '#F4F8F8',       // body bg — pale teal-tinted paper
-          100: '#E5ECEC',      // raised surface step / hover wash
-          200: '#CFD9D9',      // borders / dividers
-          300: '#B8C5C5',      // strong border / disabled
+          50: tok('bg'),
+          100: tok('raised'),
+          200: tok('border'),
+          300: tok('border-strong'),
         },
+        white: tok('surface'),
+        black: tok('scrim'),
       },
       fontFamily: {
         // System grotesk for latin, native CJK fallback for 中文 — no
@@ -51,6 +116,15 @@ export default {
           'Songti SC',
           'serif',
         ],
+        // Reading serif — link summaries (16px / 1.8).
+        serif: [
+          '"Source Serif 4"',
+          '"Noto Serif SC"',
+          'ui-serif',
+          'Georgia',
+          'Songti SC',
+          'serif',
+        ],
         // Crafted meta — domains, dates, counts.
         mono: [
           'ui-monospace',
@@ -62,44 +136,17 @@ export default {
       },
     },
   },
-  plugins: [require('daisyui')],
+  plugins: [
+    require('daisyui'),
+    ({ addBase }) =>
+      addBase({
+        ':root, [data-theme="light"]': toVars(tokens.light),
+        '[data-theme="dark"]': { 'color-scheme': 'dark', ...toVars(tokens.dark) },
+      }),
+  ],
   daisyui: {
-    themes: [
-      {
-        light: {
-          ...require('daisyui/src/theming/themes')['light'],
-          // Brand
-          primary: '#0F766E',
-          'primary-content': '#FFFFFF',
-          'primary-focus': '#0E5F58',
-          secondary: '#1F8A86',
-          'secondary-content': '#FFFFFF',
-          accent: '#EA580C',
-          'accent-content': '#FFFFFF',
-          // Surfaces — body sits on a soft paper one shade lighter than
-          // the logo's own backplate
-          'base-100': '#FFFFFF',
-          'base-200': '#F4F8F8',
-          'base-300': '#E5ECEC',
-          'base-content': '#0F2A3D',
-          neutral: '#1F3A47',
-          'neutral-content': '#F4F8F8',
-          // Semantics
-          info: '#0EA5E9',
-          'info-content': '#FFFFFF',
-          success: '#16A34A',
-          'success-content': '#FFFFFF',
-          warning: '#D97706',
-          'warning-content': '#FFFFFF',
-          error: '#B42318',
-          'error-content': '#FFFFFF',
-          // Tokens
-          '--rounded-box': '0.75rem',
-          '--rounded-btn': '0.5rem',
-          '--rounded-badge': '0.375rem',
-        },
-      },
-    ],
+    themes: [{ light: daisyTheme(tokens.light) }, { dark: daisyTheme(tokens.dark) }],
+    darkTheme: 'dark',
     logs: false,
   },
 };

@@ -23,9 +23,7 @@ export default function LoadingSpinner({
   const spinner = (
     <>
       <span className={`${baseClass} ${sizeClasses[size]} ${className}`} />
-      {text && (
-        <span className="ml-2 text-sm text-base-content/70">{text}</span>
-      )}
+      {text && <span className="ml-2 text-sm text-nc-muted">{text}</span>}
     </>
   );
 
