@@ -24,7 +24,7 @@ const toneConfig: Record<
     } as CSSProperties,
   },
   danger: {
-    className: "text-error/80 hover:text-error",
+    className: "text-nc-error",
     style: {
       "--action-bg": "color-mix(in srgb, currentColor 10%, transparent)",
       "--action-bg-hover": "color-mix(in srgb, currentColor 22%, transparent)",

@@ -309,7 +309,7 @@ export default function LinkEditModal({
               <section className="rounded-2xl border border-error/18 bg-error/[0.05] p-4">
                 <div className="space-y-1">
                   <h4 className="text-sm font-semibold text-error">处理失败</h4>
-                  <p className="break-words text-sm leading-6 text-error/85">
+                  <p className="break-words text-sm leading-6 text-nc-error">
                     {link.process_error}
                   </p>
                 </div>
